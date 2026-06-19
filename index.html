@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="Legaia">
 <meta name="theme-color" content="#0d0a1e">
 <title>Legend of Legaia — Guía</title>
-<link rel="manifest" href="/legaia-guia/manifest.json">
+<link rel="manifest" href="./manifest.json">
 <style>
   :root {
     --bg:#0d0a1e;--bg2:#13102a;--bg3:#1a1535;--surface:#211d3a;--surface2:#2a2547;
@@ -1061,7 +1061,7 @@ function toggleArea(titleEl){
 renderBossList();renderTreeList();renderSeruGrid();updateStats();
 
 if('serviceWorker' in navigator){
-  window.addEventListener('load', () => navigator.serviceWorker.register('/legaia-guia/sw.js'));
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
 }
 </script>
 </body>

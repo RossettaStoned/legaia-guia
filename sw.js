@@ -1,5 +1,10 @@
-const CACHE = 'legaia-v1';
-const FILES = ['/', '/index.html', '/manifest.json', '/icon.svg'];
+const CACHE = 'legaia-v2';
+const FILES = [
+  '/legaia-guia/',
+  '/legaia-guia/index.html',
+  '/legaia-guia/manifest.json',
+  '/legaia-guia/icon.svg'
+];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));

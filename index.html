@@ -675,62 +675,150 @@
 
     <!-- ===== ARTES ===== -->
     <div id="screen-artes" class="screen">
-      <div class="section-header"><h2>Arts</h2><p>Secuencias H/M/L para desbloquear ataques</p></div>
+      <div class="section-header"><h2>Arts</h2><p>Secuencias con el D-pad del control</p></div>
+      <div class="tip-box" style="margin-top:4px"><strong>Leyenda:</strong> ⬅️ puñetazo izq &nbsp;·&nbsp; ➡️ puñetazo der &nbsp;·&nbsp; ⬆️ patada alta &nbsp;·&nbsp; ⬇️ patada baja</div>
       <div class="subnav">
         <button class="subnav-btn active" onclick="showArts('vahn',this)">Vahn</button>
         <button class="subnav-btn" onclick="showArts('noa',this)">Noa</button>
         <button class="subnav-btn" onclick="showArts('gala',this)">Gala</button>
         <button class="subnav-btn" onclick="showArts('super',this)">Super Arts</button>
+        <button class="subnav-btn" onclick="showArts('milagro',this)">Milagrosas</button>
       </div>
+
+      <!-- VAHN -->
       <div id="arts-vahn" class="arts-char">
+        <div class="phase-label">Arts normales (18 AP)</div>
         <div class="arts-grid">
-          <div class="art-card"><div class="art-name">Swan Blade</div><div class="art-seq">H→H→H</div><div class="art-desc">Ataque básico frontal</div></div>
-          <div class="art-card"><div class="art-name">Slash Kick</div><div class="art-seq">L→H→H</div><div class="art-desc">Combo bajo a alto</div></div>
-          <div class="art-card"><div class="art-name">Vahn's Creed</div><div class="art-seq">H→M→L</div><div class="art-desc">Art equilibrada</div></div>
-          <div class="art-card"><div class="art-name">Rushing Attack</div><div class="art-seq">H→H→L→H</div><div class="art-desc">Golpe a múltiples</div></div>
-          <div class="art-card"><div class="art-name">Hyper Arts</div><div class="art-seq">H→L→H→L→H</div><div class="art-desc">Art avanzada de 5 hits</div></div>
-          <div class="art-card"><div class="art-name">Full Creed</div><div class="art-seq">H→M→L→H→M→L</div><div class="art-desc">Art más larga de Vahn</div></div>
-          <div class="art-card"><div class="art-name">Burning Arrow</div><div class="art-seq">Ra-Seru Meta</div><div class="art-desc">Magia de fuego</div></div>
-          <div class="art-card"><div class="art-name">Gimard</div><div class="art-seq">Seru absorbido</div><div class="art-desc">Fuego elemental</div></div>
+          <div class="art-card"><div class="art-name">Hyper Elbow</div><div class="art-seq">⬅️ ➡️ ⬅️</div><div class="art-desc">18 AP</div></div>
+          <div class="art-card"><div class="art-name">Charge Burn</div><div class="art-seq">⬇️ ➡️ ⬆️</div><div class="art-desc">18 AP</div></div>
+          <div class="art-card"><div class="art-name">Somersault</div><div class="art-seq">⬆️ ⬇️ ⬆️</div><div class="art-desc">18 AP</div></div>
+          <div class="art-card"><div class="art-name">Cutting Kick</div><div class="art-seq">⬆️ ⬇️ ⬅️</div><div class="art-desc">18 AP</div></div>
+          <div class="art-card"><div class="art-name">Power Slash</div><div class="art-seq">⬅️ ⬅️ ⬇️</div><div class="art-desc">18 AP</div></div>
         </div>
-        <div class="tip-box"><strong>Tip Vahn:</strong> Sus Arts H→H→H son las más fáciles de ejecutar. Aprende Swan Blade primero y luego expande a combos más largos. Para maximizar daño en jefes, Full Creed con todos los AP.</div>
+        <div class="phase-label">Arts normales (24 AP)</div>
+        <div class="arts-grid">
+          <div class="art-card"><div class="art-name">Cross Kick</div><div class="art-seq">⬇️ ⬇️ ⬇️ ⬆️</div><div class="art-desc">24 AP</div></div>
+          <div class="art-card"><div class="art-name">Pyro Pummel</div><div class="art-seq">⬅️ ➡️ ⬆️ ⬅️</div><div class="art-desc">24 AP</div></div>
+          <div class="art-card"><div class="art-name">Spin Combo</div><div class="art-seq">⬆️ ⬇️ ➡️ ⬅️</div><div class="art-desc">24 AP</div></div>
+          <div class="art-card"><div class="art-name">PK Combo</div><div class="art-seq">⬇️ ⬆️ ⬆️ ⬅️</div><div class="art-desc">24 AP</div></div>
+          <div class="art-card"><div class="art-name">Hurricane</div><div class="art-seq">⬆️ ⬆️ ⬇️ ⬇️</div><div class="art-desc">24 AP</div></div>
+          <div class="art-card"><div class="art-name">Cyclone</div><div class="art-seq">⬇️ ⬆️ ⬆️ ⬆️</div><div class="art-desc">24 AP</div></div>
+        </div>
+        <div class="phase-label">Hyper Arts (requiere Libros de Fuego)</div>
+        <div class="arts-grid">
+          <div class="art-card"><div class="art-name">Tornado Flame</div><div class="art-seq">➡️ ➡️ ⬅️</div><div class="art-desc">30 AP</div></div>
+          <div class="art-card"><div class="art-name">Fire Blow</div><div class="art-seq">➡️ ➡️ ⬇️ ⬅️</div><div class="art-desc">40 AP</div></div>
+          <div class="art-card"><div class="art-name">Burning Flare</div><div class="art-seq">➡️ ⬇️ ⬅️ ⬇️ ⬅️</div><div class="art-desc">50 AP</div></div>
+        </div>
+        <div class="phase-label">Super Arts de Vahn</div>
+        <div class="arts-grid">
+          <div class="art-card"><div class="art-name">Power Cut</div><div class="art-seq">⬇️ ➡️ ⬆️ ⬇️ ⬆️ ⬇️ ⬅️</div><div class="art-desc">54 AP</div></div>
+          <div class="art-card"><div class="art-name">Fire Tackle</div><div class="art-seq">⬅️ ➡️ ⬅️ ⬅️ ⬇️ ➡️ ⬆️</div><div class="art-desc">54 AP</div></div>
+          <div class="art-card"><div class="art-name">Maximum Blow</div><div class="art-seq">⬇️ ➡️ ⬆️ ⬇️ ⬅️ ⬅️ ⬇️</div><div class="art-desc">54 AP</div></div>
+          <div class="art-card"><div class="art-name">Triple Somersault</div><div class="art-seq">⬆️ ⬇️ ⬆️ ⬆️ ⬆️ ⬇️ ⬆️</div><div class="art-desc">60 AP</div></div>
+          <div class="art-card"><div class="art-name">Rolling Combo</div><div class="art-seq">⬆️ ⬇️ ➡️ ⬅️ ⬅️ ⬇️ ⬆️ ⬆️ ⬅️</div><div class="art-desc">66 AP</div></div>
+        </div>
+        <div class="tip-box"><strong>Tip Vahn:</strong> Empieza con Somersault (⬆️⬇️⬆️) — fácil y buen daño. Meta está alineado con fuego, sus Hyper Arts son las más poderosas contra enemigos débiles al fuego.</div>
       </div>
+
+      <!-- NOA -->
       <div id="arts-noa" class="arts-char" style="display:none">
+        <div class="phase-label">Arts normales (18 AP)</div>
         <div class="arts-grid">
-          <div class="art-card"><div class="art-name">Temptation Kick</div><div class="art-seq">H→L</div><div class="art-desc">Combo veloz básico</div></div>
-          <div class="art-card"><div class="art-name">Speed Burst</div><div class="art-seq">L→L→H</div><div class="art-desc">Múltiples golpes rápidos</div></div>
-          <div class="art-card"><div class="art-name">Tiger Fang</div><div class="art-seq">H→H→L</div><div class="art-desc">Alto daño concentrado</div></div>
-          <div class="art-card"><div class="art-name">Dancing Blade</div><div class="art-seq">H→M→H→L</div><div class="art-desc">Art avanzada de 4 hits</div></div>
-          <div class="art-card"><div class="art-name">Spiker</div><div class="art-seq">L→H→L→H→L</div><div class="art-desc">Combo de 5 golpes</div></div>
-          <div class="art-card"><div class="art-name">Rushing Band</div><div class="art-seq">H→L→H→M→L</div><div class="art-desc">Art larga de área</div></div>
-          <div class="art-card"><div class="art-name">Surging Arrow</div><div class="art-seq">Ra-Seru Terra</div><div class="art-desc">Magia de viento</div></div>
-          <div class="art-card"><div class="art-name">Lu Delilas</div><div class="art-seq">Seru absorbido</div><div class="art-desc">Viento fuerte</div></div>
+          <div class="art-card"><div class="art-name">Lizard Tail</div><div class="art-seq">⬆️ ⬇️ ⬆️</div><div class="art-desc">18 AP</div></div>
+          <div class="art-card"><div class="art-name">Acrobatic Blitz</div><div class="art-seq">⬆️ ⬇️ ⬇️</div><div class="art-desc">18 AP</div></div>
+          <div class="art-card"><div class="art-name">Sonic Javelin</div><div class="art-seq">➡️ ⬇️ ➡️</div><div class="art-desc">18 AP</div></div>
+          <div class="art-card"><div class="art-name">Blizzard Bash</div><div class="art-seq">➡️ ⬅️ ⬇️</div><div class="art-desc">18 AP</div></div>
         </div>
-        <div class="tip-box"><strong>Tip Noa:</strong> La más veloz — ataca primero casi siempre. Terra Surging Arrow contra jefes con alta DEF física. En Acto 3 úsala como maga dedicada con MP Potions abundantes.</div>
+        <div class="phase-label">Arts normales (24 AP)</div>
+        <div class="arts-grid">
+          <div class="art-card"><div class="art-name">Mirage Lancer</div><div class="art-seq">➡️ ➡️ ⬆️ ⬆️</div><div class="art-desc">24 AP</div></div>
+          <div class="art-card"><div class="art-name">Dolphin Attack</div><div class="art-seq">➡️ ➡️ ⬅️ ➡️</div><div class="art-desc">24 AP</div></div>
+          <div class="art-card"><div class="art-name">Bird Step</div><div class="art-seq">⬇️ ⬇️ ⬇️ ⬆️</div><div class="art-desc">24 AP</div></div>
+          <div class="art-card"><div class="art-name">Swan Diver</div><div class="art-seq">⬇️ ⬆️ ⬆️ ⬆️</div><div class="art-desc">24 AP</div></div>
+        </div>
+        <div class="phase-label">Arts avanzadas</div>
+        <div class="arts-grid">
+          <div class="art-card"><div class="art-name">Hard Love ⭐</div><div class="art-seq">⬇️ ⬆️ ⬇️ ⬅️ ➡️</div><div class="art-desc">30 AP · ¡Encanta enemigos!</div></div>
+          <div class="art-card"><div class="art-name">Gale Breath</div><div class="art-seq">⬆️ ⬆️ ⬅️ ⬇️ ➡️</div><div class="art-desc">30 AP</div></div>
+          <div class="art-card"><div class="art-name">Tempest Break</div><div class="art-seq">➡️ ➡️ ⬅️ ⬆️ ⬆️ ⬆️</div><div class="art-desc">36 AP</div></div>
+        </div>
+        <div class="phase-label">Hyper Arts (requiere Libros de Viento)</div>
+        <div class="arts-grid">
+          <div class="art-card"><div class="art-name">Icy Breath</div><div class="art-seq">⬅️ ⬅️ ➡️ ➡️</div><div class="art-desc">40 AP</div></div>
+          <div class="art-card"><div class="art-name">Vulture Blade</div><div class="art-seq">⬅️ ⬅️ ➡️ ⬅️ ➡️</div><div class="art-desc">50 AP</div></div>
+          <div class="art-card"><div class="art-name">Hurricane Kick</div><div class="art-seq">⬅️ ⬆️ ⬆️ ⬆️ ⬆️ ⬇️ ➡️</div><div class="art-desc">70 AP</div></div>
+        </div>
+        <div class="phase-label">Super Arts de Noa</div>
+        <div class="arts-grid">
+          <div class="art-card"><div class="art-name">Super Javelin</div><div class="art-seq">⬆️ ⬆️ ⬅️ ⬇️ ➡️ ⬇️ ➡️</div><div class="art-desc">48 AP</div></div>
+          <div class="art-card"><div class="art-name">Dragon Fangs</div><div class="art-seq">⬆️ ⬇️ ⬆️ ⬆️ ⬆️ ⬇️ ⬇️</div><div class="art-desc">54 AP</div></div>
+          <div class="art-card"><div class="art-name">Triple Lizard</div><div class="art-seq">⬇️ ⬇️ ⬇️ ⬆️ ⬆️ ⬆️ ⬇️ ⬆️</div><div class="art-desc">66 AP</div></div>
+          <div class="art-card"><div class="art-name">Super Tempest</div><div class="art-seq">➡️ ➡️ ⬅️ ➡️ ➡️ ⬅️ ⬆️ ⬆️ ⬆️</div><div class="art-desc">60 AP</div></div>
+          <div class="art-card"><div class="art-name">I Love You</div><div class="art-seq">➡️ ➡️ ⬆️ ⬆️ ⬇️ ⬆️ ⬇️ ⬅️ ➡️</div><div class="art-desc">72 AP</div></div>
+        </div>
+        <div class="tip-box"><strong>Tip Noa:</strong> Hard Love (⬇️⬆️⬇️⬅️➡️) encanta al enemigo — perfecta para cuando quieres absorber un Seru. Terra está alineada con viento, sus Hyper Arts son las más efectivas del grupo.</div>
       </div>
+
+      <!-- GALA -->
       <div id="arts-gala" class="arts-char" style="display:none">
+        <div class="phase-label">Arts normales (18 AP)</div>
         <div class="arts-grid">
-          <div class="art-card"><div class="art-name">Charging Screw</div><div class="art-seq">H→H→H</div><div class="art-desc">Golpe pesado frontal</div></div>
-          <div class="art-card"><div class="art-name">Gala's Hammer</div><div class="art-seq">H→M→H</div><div class="art-desc">Daño masivo concentrado</div></div>
-          <div class="art-card"><div class="art-name">Gale Break</div><div class="art-seq">L→H→L→H</div><div class="art-desc">Combo equilibrado</div></div>
-          <div class="art-card"><div class="art-name">Power Punch</div><div class="art-seq">H→H→L→H</div><div class="art-desc">Art avanzada potente</div></div>
-          <div class="art-card"><div class="art-name">Deadly Finger</div><div class="art-seq">H→M→L→H→M</div><div class="art-desc">Art de máximo daño</div></div>
-          <div class="art-card"><div class="art-name">Biron Strike</div><div class="art-seq">H→L→M→H→L→M</div><div class="art-desc">Art más larga de Gala</div></div>
-          <div class="art-card"><div class="art-name">Dark Wave</div><div class="art-seq">Ra-Seru Ozma</div><div class="art-desc">Oscuridad — el más poderoso</div></div>
-          <div class="art-card"><div class="art-name">Kemaro</div><div class="art-seq">Seru absorbido</div><div class="art-desc">Magia de tierra</div></div>
+          <div class="art-card"><div class="art-name">Flying Knee</div><div class="art-seq">⬇️ ⬆️ ⬅️</div><div class="art-desc">18 AP</div></div>
+          <div class="art-card"><div class="art-name">Battering Ram</div><div class="art-seq">⬅️ ➡️ ⬇️</div><div class="art-desc">18 AP</div></div>
+          <div class="art-card"><div class="art-name">Ironhead</div><div class="art-seq">⬆️ ⬇️ ⬇️</div><div class="art-desc">18 AP</div></div>
+          <div class="art-card"><div class="art-name">Backslap</div><div class="art-seq">⬅️ ➡️ ⬅️</div><div class="art-desc">18 AP</div></div>
+          <div class="art-card"><div class="art-name">Guillotine</div><div class="art-seq">⬅️ ⬆️ ⬅️</div><div class="art-desc">18 AP</div></div>
+          <div class="art-card"><div class="art-name">Demolition Headbutt</div><div class="art-seq">⬅️ ⬆️ ⬆️</div><div class="art-desc">18 AP</div></div>
         </div>
-        <div class="tip-box"><strong>Tip Gala:</strong> Dark Wave de Ozma es el hechizo más fuerte del juego. Sube primero su nivel Ra-Seru absorbiendo Seru constantemente. En Acto 3, Gala como tanque + mago de daño masivo.</div>
+        <div class="phase-label">Arts normales (24-30 AP)</div>
+        <div class="arts-grid">
+          <div class="art-card"><div class="art-name">Side Kick</div><div class="art-seq">⬇️ ⬇️ ⬆️ ⬆️</div><div class="art-desc">24 AP</div></div>
+          <div class="art-card"><div class="art-name">Black Rain</div><div class="art-seq">⬆️ ⬅️ ⬇️ ⬇️</div><div class="art-desc">24 AP</div></div>
+          <div class="art-card"><div class="art-name">Neo Raising</div><div class="art-seq">⬅️ ⬅️ ➡️ ⬆️ ⬅️</div><div class="art-desc">30 AP</div></div>
+          <div class="art-card"><div class="art-name">Electro Thrash</div><div class="art-seq">⬆️ ⬅️ ⬇️ ➡️ ⬅️</div><div class="art-desc">30 AP</div></div>
+          <div class="art-card"><div class="art-name">Bull Horns</div><div class="art-seq">⬅️ ⬆️ ➡️ ⬇️ ⬅️</div><div class="art-desc">30 AP</div></div>
+        </div>
+        <div class="phase-label">Hyper Arts (requiere Libros de Trueno)</div>
+        <div class="arts-grid">
+          <div class="art-card"><div class="art-name">Thunder Fist</div><div class="art-seq">➡️ ➡️ ⬅️</div><div class="art-desc">30 AP</div></div>
+          <div class="art-card"><div class="art-name">Electric Storm</div><div class="art-seq">➡️ ➡️ ⬆️ ⬅️</div><div class="art-desc">40 AP</div></div>
+          <div class="art-card"><div class="art-name">Explosive Fist</div><div class="art-seq">➡️ ➡️ ⬅️ ⬅️ ⬅️</div><div class="art-desc">50 AP</div></div>
+        </div>
+        <div class="phase-label">Super Arts de Gala</div>
+        <div class="arts-grid">
+          <div class="art-card"><div class="art-name">Quick Smash</div><div class="art-seq">⬅️ ➡️ ⬇️ ⬆️ ⬅️ ⬆️ ⬆️</div><div class="art-desc">54 AP</div></div>
+          <div class="art-card"><div class="art-name">Super Ironhead</div><div class="art-seq">⬇️ ⬆️ ⬅️ ⬆️ ⬆️ ⬇️ ⬇️</div><div class="art-desc">54 AP</div></div>
+          <div class="art-card"><div class="art-name">Backslap x2</div><div class="art-seq">⬆️ ⬇️ ⬇️ ⬆️ ⬅️ ➡️ ⬅️</div><div class="art-desc">54 AP</div></div>
+          <div class="art-card"><div class="art-name">Celestial Drop</div><div class="art-seq">⬇️ ⬆️ ⬅️ ⬆️ ⬆️ ⬅️ ⬇️ ⬇️</div><div class="art-desc">60 AP</div></div>
+          <div class="art-card"><div class="art-name">Neo Static Raise</div><div class="art-seq">⬅️ ➡️ ⬅️ ⬆️ ⬅️ ⬅️ ➡️ ⬆️ ⬅️</div><div class="art-desc">66 AP</div></div>
+        </div>
+        <div class="tip-box"><strong>Tip Gala:</strong> Ironhead (⬆️⬇️⬇️) es el más fácil de ejecutar al inicio. Ozma está alineado con trueno — busca los Libros de Trueno en cofres para desbloquear sus Hyper Arts.</div>
       </div>
+
+      <!-- SUPER ARTS -->
       <div id="arts-super" class="arts-char" style="display:none">
         <div class="card" style="margin:0 16px 12px">
-          <div class="card-header"><h3>⚡ Super Arts combinados</h3></div>
-          <div class="card-body" style="margin-bottom:4px">Se activan cuando el medidor de combo del grupo supera el umbral durante un turno. Cuantos más hits acumules ese turno, mayor la probabilidad de activar uno.</div>
-          <div class="boss-item"><div class="boss-top"><span class="boss-name">Noa's Kiss</span><span class="badge b-teal">Vahn + Noa</span></div><div class="boss-tip">El más fácil de activar. Daño físico masivo en un solo enemigo. Ideal para jefes de Acto 1-2.</div></div>
-          <div class="boss-item"><div class="boss-top"><span class="boss-name">Noa's Hope</span><span class="badge b-amber">Noa + Gala</span></div><div class="boss-tip">Equilibrio entre velocidad (Noa) y poder (Gala). Bueno contra grupos de enemigos fuertes.</div></div>
-          <div class="boss-item"><div class="boss-top"><span class="boss-name">Vahn's Creed Ex</span><span class="badge b-purple">Vahn + Gala</span></div><div class="boss-tip">Super Art de los dos personajes físicos. Enorme daño concentrado en un enemigo.</div></div>
-          <div class="boss-item"><div class="boss-top"><span class="boss-name">Biron Moonlight</span><span class="badge b-coral">Los 3 juntos ⭐</span></div><div class="boss-tip">El Super Art supremo. Requiere alto combo de los 3 personajes en el mismo turno. Daño devastador. Úsalo en Cort Fase 1 si puedes activarlo.</div></div>
+          <div class="card-header"><h3>⚡ Sobre las Super Arts</h3></div>
+          <div class="card-body">No aparecen en la lista de Arts del juego — debes memorizarlas o anotarlas. Si no tienes suficientes AP los ataques se ejecutan pero sin el efecto especial. Están listadas por personaje en cada pestaña individual.</div>
         </div>
-        <div class="tip-box"><strong>Para activar Super Arts:</strong> Acumula la mayor cantidad de hits posible antes del umbral. No uses Spirit el turno anterior — necesitas AP y momentum máximos. Los Arts más largos (Full Creed, Biron Strike) ayudan a acumular combo rápido.</div>
+        <div class="tip-box"><strong>Truco AP:</strong> Usa Spirit en turnos donde el enemigo no va a atacar fuerte — recuperas todos tus AP y reduces el daño recibido. Así puedes acumular AP para ejecutar Super Arts en el siguiente turno.</div>
+        <div class="warn-box"><strong>Para Arts Milagrosas (99 AP):</strong> Necesitas el accesorio <strong>Fire Droplet</strong> obtenido en Uru Mais — mantiene tus AP en 100 todo el tiempo. Sin él es casi imposible ejecutarlas.</div>
+      </div>
+
+      <!-- MILAGROSAS -->
+      <div id="arts-milagro" class="arts-char" style="display:none">
+        <div class="card" style="margin:0 16px 12px">
+          <div class="card-header"><h3>✨ Arts Milagrosas</h3></div>
+          <div class="card-body">Se aprenden como Arts normales — al ejecutar la secuencia correcta aparece "¡Nuevo arte!" y queda registrada en tu lista. Combinan múltiples Arts en un gran combo. Cuestan 99 AP.</div>
+        </div>
+        <div class="arts-grid" style="padding:0 16px 12px">
+          <div class="art-card"><div class="art-name">Vahn's Madness</div><div class="art-seq">➡️ ⬇️ ⬅️ ⬆️ ⬅️ ⬆️ ➡️ ⬇️ ⬅️</div><div class="art-desc">99 AP · Vahn</div></div>
+          <div class="art-card"><div class="art-name">Noa's Ark</div><div class="art-seq">⬅️ ⬆️ ➡️ ⬇️ ⬆️ ⬅️ ⬆️ ⬇️ ➡️</div><div class="art-desc">99 AP · Noa</div></div>
+          <div class="art-card"><div class="art-name">Biron's Fury</div><div class="art-seq">➡️ ➡️ ⬇️ ⬆️ ⬇️ ⬆️ ⬇️ ⬅️ ⬅️</div><div class="art-desc">99 AP · Gala</div></div>
+        </div>
+        <div class="warn-box"><strong>Requisito:</strong> Fire Droplet equipado (obtenido en Uru Mais). Mantiene AP en 100 permanentemente, permitiendo ejecutar Arts Milagrosas cada turno.</div>
+        <div class="tip-box"><strong>Estrategia Muscle Dome Master:</strong> Con Fire Droplet en Vahn, ejecuta Vahn's Madness cada turno. Es la forma más eficiente de ganar el torneo Master y obtener el War God Icon.</div>
       </div>
     </div>
 

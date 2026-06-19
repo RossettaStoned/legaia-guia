@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Legaia">
+<meta name="theme-color" content="#0d0a1e">
+<title>Legend of Legaia — Guía</title>
+<link rel="manifest" href="manifest.json">
+<style>
+  :root {
+    --bg:#0d0a1e;--bg2:#13102a;--bg3:#1a1535;--surface:#211d3a;--surface2:#2a2547;
+    --border:rgba(174,168,236,0.12);--border2:rgba(174,168,236,0.22);
+    --purple:#AFA9EC;--purple-dark:#7F77DD;--purple-dim:rgba(175,169,236,0.15);
+    --teal:#5DCAA5;--teal-dim:rgba(93,202,165,0.15);
+    --amber:#EF9F27;--amber-dim:rgba(239,159,39,0.15);
+    --coral:#F0997B;--coral-dim:rgba(240,153,123,0.15);
+    --text:#E8E6F8;--text2:#9894C4;--text3:#5e5a8a;--green:#97C459;--red:#F09595;
+    --safe-top:env(safe-area-inset-top);--safe-bottom:env(safe-area-inset-bottom);--tab-h:60px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text',sans-serif;overflow:hidden}
+  #app{display:flex;flex-direction:column;height:100%}
+  #header{background:var(--bg2);border-bottom:0.5px solid var(--border);padding:calc(var(--safe-top) + 12px) 16px 12px;flex-shrink:0}
+  #header h1{font-size:20px;font-weight:600;color:var(--purple);letter-spacing:.3px}
+  #header p{font-size:12px;color:var(--text2);margin-top:1px}
+  #content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--tab-h) + var(--safe-bottom) + 16px)}
+  #tabs{position:fixed;bottom:0;left:0;right:0;height:calc(var(--tab-h) + var(--safe-bottom));background:var(--bg2);border-top:0.5px solid var(--border);display:flex;align-items:flex-start;padding-top:8px;padding-bottom:var(--safe-bottom);z-index:100}
+  .tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 0;opacity:.45;transition:opacity .15s}
+  .tab.active{opacity:1}
+  .tab svg{width:22px;height:22px;stroke:var(--purple);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .tab span{font-size:10px;color:var(--purple);font-weight:500}
+  .screen{display:none}.screen.active{display:block}
+  .card{background:var(--surface);border:0.5px solid var(--border);border-radius:14px;margin:0 16px 12px;overflow:hidden}
+  .card-header{padding:14px 16px 10px;border-bottom:0.5px solid var(--border)}
+  .card-header h3{font-size:15px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:8px}
+  .card-body{padding:12px 16px;font-size:13px;color:var(--text2);line-height:1.65}
+  .badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:600;letter-spacing:.3px}
+  .b-purple{background:var(--purple-dim);color:var(--purple)}
+  .b-teal{background:var(--teal-dim);color:var(--teal)}
+  .b-amber{background:var(--amber-dim);color:var(--amber)}
+  .b-coral{background:var(--coral-dim);color:var(--coral)}
+  .b-green{background:rgba(151,196,89,.15);color:var(--green)}
+  .hero{background:linear-gradient(160deg,#1a0a2e 0%,#0d1f3c 60%,#0a2818 100%);padding:24px 16px 20px;margin-bottom:4px;border-bottom:0.5px solid var(--border)}
+  .hero-title{font-size:26px;font-weight:700;color:var(--purple);letter-spacing:.5px}
+  .hero-sub{font-size:12px;color:var(--teal);margin:2px 0 10px}
+  .hero-desc{font-size:13px;color:var(--text2);line-height:1.6}
+  .subnav{display:flex;gap:8px;padding:12px 16px 8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .subnav::-webkit-scrollbar{display:none}
+  .subnav-btn{flex-shrink:0;padding:6px 14px;border-radius:16px;border:0.5px solid var(--border2);background:transparent;color:var(--text2);font-size:13px;cursor:pointer;transition:all .15s;white-space:nowrap;-webkit-appearance:none}
+  .subnav-btn.active{background:var(--purple-dim);border-color:var(--purple-dark);color:var(--purple)}
+  .step-item{display:flex;gap:12px;padding:10px 16px;border-bottom:0.5px solid var(--border);align-items:flex-start}
+  .step-item:last-child{border-bottom:none}
+  .step-num{min-width:24px;height:24px;border-radius:50%;background:var(--purple-dim);color:var(--purple);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+  .step-text{font-size:13px;color:var(--text2);line-height:1.6}
+  .step-text strong{color:var(--text);font-weight:600}
+  .tip-box{background:var(--purple-dim);border-left:2px solid var(--purple-dark);border-radius:0 8px 8px 0;padding:10px 14px;margin:0 16px 10px;font-size:12px;color:var(--text2);line-height:1.6}
+  .tip-box strong{color:var(--text)}
+  .warn-box{background:var(--amber-dim);border-left:2px solid var(--amber);border-radius:0 8px 8px 0;padding:10px 14px;margin:0 16px 10px;font-size:12px;color:var(--text2);line-height:1.6}
+  .warn-box strong{color:var(--amber)}
+  .secret-box{background:var(--teal-dim);border-left:2px solid var(--teal);border-radius:0 8px 8px 0;padding:10px 14px;margin:0 16px 10px;font-size:12px;color:var(--text2);line-height:1.6}
+  .secret-box strong{color:var(--teal)}
+  .phase-label{font-size:11px;font-weight:700;color:var(--purple);letter-spacing:.8px;text-transform:uppercase;padding:16px 16px 6px}
+  .area-card{background:var(--surface);border:0.5px solid var(--border);border-radius:14px;margin:0 16px 10px;overflow:hidden}
+  .area-title{padding:12px 16px;background:var(--surface2);border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+  .area-title h4{font-size:14px;font-weight:600;color:var(--text)}
+  .area-title .chevron{color:var(--text3);font-size:12px;transition:transform .2s}
+  .area-title.open .chevron{transform:rotate(180deg)}
+  .area-body{display:none;padding:0}
+  .area-body.open{display:block}
+  .area-section{padding:10px 16px;border-bottom:0.5px solid var(--border)}
+  .area-section:last-child{border-bottom:none}
+  .area-section-title{font-size:11px;font-weight:700;color:var(--text3);letter-spacing:.6px;text-transform:uppercase;margin-bottom:6px}
+  .area-section p{font-size:13px;color:var(--text2);line-height:1.6}
+  .area-section p+p{margin-top:6px}
+  .tag-row{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+  .item-tag{font-size:11px;padding:3px 9px;border-radius:8px;font-weight:500}
+  .it-item{background:var(--amber-dim);color:var(--amber)}
+  .it-enemy{background:var(--coral-dim);color:var(--coral)}
+  .it-seru{background:var(--teal-dim);color:var(--teal)}
+  .it-secret{background:var(--purple-dim);color:var(--purple)}
+  .boss-item{padding:12px 16px;border-bottom:0.5px solid var(--border)}
+  .boss-item:last-child{border-bottom:none}
+  .boss-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+  .boss-name{font-size:14px;font-weight:600;color:var(--text)}
+  .boss-tip{font-size:12px;color:var(--text2);line-height:1.55}
+  .arts-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 16px}
+  .art-card{background:var(--surface2);border-radius:10px;padding:10px 12px;border:0.5px solid var(--border)}
+  .art-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:3px}
+  .art-seq{font-size:11px;color:var(--purple);font-family:'SF Mono',monospace;margin-bottom:2px}
+  .art-desc{font-size:11px;color:var(--text2)}
+  .char-row{display:flex;gap:12px;padding:12px 16px;border-bottom:0.5px solid var(--border);align-items:center}
+  .char-row:last-child{border-bottom:none}
+  .char-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+  .char-name{font-size:14px;font-weight:600;color:var(--text)}
+  .char-desc{font-size:12px;color:var(--text2);margin-top:2px;line-height:1.5}
+  .stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:12px 16px}
+  .stat-box{background:var(--surface2);border-radius:10px;padding:10px;text-align:center}
+  .stat-num{font-size:22px;font-weight:700;color:var(--purple)}
+  .stat-label{font-size:10px;color:var(--text2);margin-top:2px}
+  .tracker-item{display:flex;align-items:center;gap:12px;padding:11px 16px;border-bottom:0.5px solid var(--border);cursor:pointer;-webkit-user-select:none;user-select:none}
+  .tracker-item:last-child{border-bottom:none}
+  .tracker-item:active{background:var(--surface2)}
+  .tracker-label{flex:1}
+  .tracker-name{font-size:13px;font-weight:500;color:var(--text)}
+  .tracker-sub{font-size:11px;color:var(--text2);margin-top:1px}
+  .toggle{width:44px;height:26px;border-radius:13px;background:var(--bg3);border:0.5px solid var(--border2);position:relative;flex-shrink:0;transition:background .2s}
+  .toggle.on{background:var(--purple-dark);border-color:var(--purple-dark)}
+  .toggle-knob{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+  .toggle.on .toggle-knob{transform:translateX(18px)}
+  .seru-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:12px 16px}
+  .seru-card{background:var(--surface2);border-radius:10px;padding:10px 12px;border:0.5px solid var(--border);cursor:pointer;transition:border-color .15s;-webkit-user-select:none;user-select:none}
+  .seru-card.absorbed{border-color:var(--teal)}
+  .seru-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px}
+  .seru-name{font-size:13px;font-weight:600;color:var(--text)}
+  .seru-check{font-size:14px;opacity:0;transition:opacity .15s}
+  .seru-card.absorbed .seru-check{opacity:1}
+  .seru-magic{font-size:11px;color:var(--teal);margin-bottom:2px}
+  .seru-zone{font-size:10px;color:var(--text3)}
+  .item-table{width:100%}
+  .item-row{display:flex;gap:10px;padding:9px 16px;border-bottom:0.5px solid var(--border);align-items:flex-start}
+  .item-row:last-child{border-bottom:none}
+  .item-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+  .item-info{flex:1}
+  .item-name{font-size:13px;font-weight:600;color:var(--text)}
+  .item-detail{font-size:11px;color:var(--text2);margin-top:2px;line-height:1.5}
+  .item-where{font-size:10px;color:var(--text3);margin-top:3px}
+  .level-row{display:flex;align-items:center;padding:10px 16px;border-bottom:0.5px solid var(--border)}
+  .level-row:last-child{border-bottom:none}
+  .level-zone{flex:1;font-size:13px;color:var(--text2)}
+  .level-range{font-size:13px;font-weight:600;color:var(--amber)}
+  .section-header{padding:20px 16px 4px}
+  .section-header h2{font-size:22px;font-weight:700;color:var(--text)}
+  .section-header p{font-size:13px;color:var(--text2);margin-top:3px}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="header">
+    <h1>Legend of Legaia</h1>
+    <p>Guía completa · PS1 · 1998</p>
+  </div>
+  <div id="content">
+
+    <!-- ===== GUIA ===== -->
+    <div id="screen-guia" class="screen active">
+      <div class="hero">
+        <div class="hero-title">Legaia</div>
+        <div class="hero-sub">PlayStation · 1998 · JRPG</div>
+        <div class="hero-desc">Despierta los Árboles Genesis, disipa la Niebla Seru y salva el mundo con Meta, Terra y Ozma.</div>
+      </div>
+      <div class="subnav">
+        <button class="subnav-btn active" onclick="showGuide('historia',this)">Historia</button>
+        <button class="subnav-btn" onclick="showGuide('personajes',this)">Personajes</button>
+        <button class="subnav-btn" onclick="showGuide('combate',this)">Combate</button>
+        <button class="subnav-btn" onclick="showGuide('walkthrough',this)">Walkthrough</button>
+        <button class="subnav-btn" onclick="showGuide('jefes',this)">Jefes</button>
+        <button class="subnav-btn" onclick="showGuide('tips',this)">Tips</button>
+      </div>
+
+      <!-- HISTORIA -->
+      <div id="gs-historia" class="guide-section">
+        <div class="card">
+          <div class="card-header"><h3>📖 Argumento</h3></div>
+          <div class="card-body">La <strong style="color:var(--text)">Niebla (Mist)</strong> cubre el mundo, corrompiendo a los Seru y obligando a los humanos a refugiarse en aldeas aisladas. Vahn de Rim Elm descubre que el Ra-Seru Meta lo elige como portador. Su misión: recorrer el continente despertando Árboles Genesis dormidos para disipar la oscuridad.<br><br>Durante el viaje se une a Noa —criada en la naturaleza con Terra— y Gala —monje guerrero con Ozma. Juntos descubren que la Niebla tiene un origen artificial: el científico <strong style="color:var(--text)">Cort</strong>, obsesionado con fusionar a la humanidad con los Seru a cualquier precio.</div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>🌍 Conceptos clave</h3></div>
+          <div class="step-item"><div class="step-num">S</div><div class="step-text"><strong>Seru:</strong> Criaturas simbióticas. Bajo la Niebla se corrompen y atacan humanos. Al derrotarlos puedes absorberlos y aprender su magia.</div></div>
+          <div class="step-item"><div class="step-num">R</div><div class="step-text"><strong>Ra-Seru:</strong> Seru superiores y conscientes inmunes a la Niebla: Meta (Vahn), Terra (Noa), Ozma (Gala). Fuente del poder de los héroes.</div></div>
+          <div class="step-item"><div class="step-num">G</div><div class="step-text"><strong>Árbol Genesis:</strong> Árboles sagrados en estado de hibernación. Cada vez que uno despierta, disipa la Niebla de esa región.</div></div>
+          <div class="step-item"><div class="step-num">N</div><div class="step-text"><strong>La Niebla:</strong> No solo corrompe Seru; también enloquece a humanos que llevan Seru fusionados. Los Ra-Seru son la única resistencia.</div></div>
+        </div>
+      </div>
+
+      <!-- PERSONAJES -->
+      <div id="gs-personajes" class="guide-section" style="display:none">
+        <div class="card">
+          <div class="card-header"><h3>⚔️ Héroes principales</h3></div>
+          <div class="char-row">
+            <div class="char-avatar" style="background:var(--purple-dim);color:var(--purple)">VA</div>
+            <div><div class="char-name">Vahn <span class="badge b-purple">Ra-Seru: Meta</span></div><div class="char-desc">Protagonista de Rim Elm. Stats equilibrados, mejor atacante físico del grupo. Sus Arts se basan en combos de puños y patadas. Meta domina la magia de fuego. Buena opción como DPS principal.</div></div>
+          </div>
+          <div class="char-row">
+            <div class="char-avatar" style="background:var(--teal-dim);color:var(--teal)">NO</div>
+            <div><div class="char-name">Noa <span class="badge b-teal">Ra-Seru: Terra</span></div><div class="char-desc">Criada en la selva, la más veloz del grupo. Menor defensa y HP, pero velocidad y poder de ataque altísimos. Terra maneja magia de viento. Ideal como atacante secundaria y maga contra jefes físicamente resistentes.</div></div>
+          </div>
+          <div class="char-row">
+            <div class="char-avatar" style="background:var(--amber-dim);color:var(--amber)">GA</div>
+            <div><div class="char-name">Gala <span class="badge b-amber">Ra-Seru: Ozma</span></div><div class="char-desc">Monje del Templo Biron. Mayor HP y defensa del equipo. Más lento pero con golpes devastadores. Ozma tiene la magia más poderosa del juego (Dark Wave). Rol de tanque y mago de daño masivo en endgame.</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>💀 Antagonistas</h3></div>
+          <div class="char-row">
+            <div class="char-avatar" style="background:var(--coral-dim);color:var(--coral)">CO</div>
+            <div><div class="char-name">Cort</div><div class="char-desc">El gran villano. Científico brillante obsesionado con la fusión humano-Seru. Creó y propagó la Niebla. Su batalla final es en múltiples fases y uno de los mejores de la era PS1.</div></div>
+          </div>
+          <div class="char-row">
+            <div class="char-avatar" style="background:var(--coral-dim);color:var(--coral)">GZ</div>
+            <div><div class="char-name">Gaza</div><div class="char-desc">Maestro monje de Biron, mentor de Gala. No es un villano convencional — su combate es uno de los más emotivos del juego. Sus motivaciones son trágicas y comprensibles.</div></div>
+          </div>
+          <div class="char-row">
+            <div class="char-avatar" style="background:var(--coral-dim);color:var(--coral)">SO</div>
+            <div><div class="char-name">Songi</div><div class="char-desc">Rival de Gala en el templo. Traidor con motivaciones oscuras. Aparece varias veces durante el juego con poderes crecientes. Sus enfrentamientos son memorables.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COMBATE -->
+      <div id="gs-combate" class="guide-section" style="display:none">
+        <div class="card">
+          <div class="card-header"><h3>🥊 Sistema de Arts</h3></div>
+          <div class="card-body" style="margin-bottom:4px">En lugar de un simple "Atacar", eliges secuencias de comandos direccionales: <strong style="color:var(--purple)">H (High) · M (Mid) · L (Low)</strong>. Combinaciones específicas desencadenan Arts con animaciones y daños únicos. Se aprenden automáticamente al ejecutarlas por primera vez.</div>
+          <div class="step-item"><div class="step-num">1</div><div class="step-text"><strong>AP (Action Points):</strong> Cada golpe usa AP. Tienes un máximo por turno que aumenta al subir de nivel. Planifica cuántos AP gastar vs cuántos guardar para Arts poderosas.</div></div>
+          <div class="step-item"><div class="step-num">2</div><div class="step-text"><strong>Spirit:</strong> Recupera todos tus AP y reduce el daño que recibirás ese turno a la mitad. Úsalo antes de que un jefe ejecute su ataque más fuerte. Es la mecánica defensiva más importante del juego.</div></div>
+          <div class="step-item"><div class="step-num">3</div><div class="step-text"><strong>Super Arts:</strong> Ataques combinados entre 2 o 3 personajes. El medidor de combo del grupo debe superar el umbral ese turno. Son los ataques más devastadores del juego.</div></div>
+          <div class="step-item"><div class="step-num">4</div><div class="step-text"><strong>Magia Seru:</strong> Absorbida de enemigos derrotados. Elementales (fuego, hielo, viento, trueno). Consumen MP. Crucial contra jefes con alta defensa física.</div></div>
+          <div class="step-item"><div class="step-num">5</div><div class="step-text"><strong>Ra-Seru Magic:</strong> Meta → Gimard (fuego), Terra → Surging Arrow (viento), Ozma → Dark Wave (oscuridad). Son las magias más poderosas. Úsalas estratégicamente en jefes difíciles.</div></div>
+        </div>
+        <div class="card">
+          <div class="card-header"><h3>📈 Sistema de progresión</h3></div>
+          <div class="step-item"><div class="step-num">🌳</div><div class="step-text"><strong>Ra-Seru Level:</strong> Completamente separado del nivel del personaje. Sube cada vez que absorbes un Seru. A mayor nivel Ra-Seru, más poderosas son las magias del Ra-Seru y más atributos otorga.</div></div>
+          <div class="step-item"><div class="step-num">📖</div><div class="step-text"><strong>Aprender Arts:</strong> Ejecuta la secuencia H/M/L en combate para aprenderla. No hay menú de habilidades — la experimentación es parte del diseño. Algunas Arts tienen requisito de nivel mínimo.</div></div>
+          <div class="step-item"><div class="step-num">⚡</div><div class="step-text"><strong>Absorber Seru:</strong> Al derrotar un Seru hay probabilidad de absorción. Cada tipo enseña una magia diferente. Absorber todos los tipos disponibles en una zona es fundamental antes de avanzar.</div></div>
+        </div>
+      </div>
+
+      <!-- WALKTHROUGH DETALLADO -->
+      <div id="gs-walkthrough" class="guide-section" style="display:none">
+        <div class="phase-label">Acto 1 — El mundo de Vahn</div>
+
+        <div class="area-card">
+          <div class="area-title" onclick="toggleArea(this)">
+            <h4>🏘️ Rim Elm</h4><span class="chevron">▾</span>
+          </div>
+          <div class="area-body">
+            <div class="area-section">
+              <div class="area-section-title">Qué hacer</div>
+              <p>Habla con <strong style="color:var(--text)">todos los NPCs</strong> sin excepción: dan contexto clave y algunos activan eventos. Visita la casa de Vahn y habla con su abuelo Jasper. Revisa el almacén al norte. Examina la muralla de árboles al este — está debilitándose.</p>
+              <p>Cuando la Niebla comience a entrar, dirígete al <strong style="color:var(--text)">Árbol Genesis</strong> en el extremo norte de la aldea. Interactúa con él para el primer evento cinemático.</p>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Items disponibles</div>
+              <div class="tag-row">
+                <span class="item-tag it-item">Healing Leaf ×3</span>
+                <span class="item-tag it-item">Power Ring (cofre oculto)</span>
+                <span class="item-tag it-item">Stone Coin</span>
+              </div>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Secreto</div>
+              <p>Antes de salir de Rim Elm, busca el <strong style="color:var(--text)">cofre en el tejado</strong> de la casa del extremo sur. Necesitas acceder por la parte trasera. Contiene un Power Ring útil para las primeras horas.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="area-card">
+          <div class="area-title" onclick="toggleArea(this)">
+            <h4>🏰 Drake Castle</h4><span class="chevron">▾</span>
+          </div>
+          <div class="area-body">
+            <div class="area-section">
+              <div class="area-section-title">Qué hacer</div>
+              <p>Primer dungeon real. El castillo está infestado de Seru corruptos y Drake Kingdom está en caos. Avanza por los pasillos principales hacia el trono. Varios soldados del reino yacen heridos — habla con todos para recopilar pistas.</p>
+              <p>El rey Drake está encerrado. Encuentra la <strong style="color:var(--text)">llave de la torre</strong> derrotando al guardia en el piso 2. Sube a la torre norte para el enfrentamiento con Caruban.</p>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Enemigos y Seru</div>
+              <div class="tag-row">
+                <span class="item-tag it-enemy">Soru Swordsman</span>
+                <span class="item-tag it-enemy">Gimard</span>
+                <span class="item-tag it-enemy">Orb Seru</span>
+                <span class="item-tag it-seru">Absorbe: Gimard (magia de fuego)</span>
+              </div>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Items</div>
+              <div class="tag-row">
+                <span class="item-tag it-item">Healing Leaf ×4</span>
+                <span class="item-tag it-item">Magic Leaf ×2</span>
+                <span class="item-tag it-item">Antidote</span>
+                <span class="item-tag it-item">Leather Armor</span>
+              </div>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">⚔️ Jefe: Caruban</div>
+              <p>Usa <strong style="color:var(--text)">magia de fuego Gimard</strong> si ya la absorbiste. Caruban llama a minions — elimínalos primero para evitar ser abrumado. Spirit cuando tenga carga de ataque especial. Nivel recomendado: 10-12.</p>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Secreto</div>
+              <p>Tras derrotar a Caruban, vuelve al sótano del castillo. Hay un <strong style="color:var(--text)">pasaje oculto</strong> detrás de una estantería en la sala de archivos. Contiene un cofre con un Seru Armor.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="area-card">
+          <div class="area-title" onclick="toggleArea(this)">
+            <h4>❄️ Snowdrift Cave & Snowfield</h4><span class="chevron">▾</span>
+          </div>
+          <div class="area-body">
+            <div class="area-section">
+              <div class="area-section-title">Qué hacer</div>
+              <p>Zona de hielo al norte de Drake. La ventisca dificulta la visión. Avanza hacia el norte siguiendo los postes de madera como guía. Dentro de la cueva encontrarás a <strong style="color:var(--text)">Noa</strong> atrapada.</p>
+              <p>Después de que Terra se fusione con Noa, experimenta con sus Arts. Noa tiene patrones de ataque L→H muy efectivos en esta zona. Despierta el Árbol Genesis de Snowfield antes de continuar.</p>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Enemigos y Seru</div>
+              <div class="tag-row">
+                <span class="item-tag it-enemy">Snow Orb</span>
+                <span class="item-tag it-enemy">Ice Seru</span>
+                <span class="item-tag it-enemy">Viguro</span>
+                <span class="item-tag it-seru">Absorbe: Zenoir (magia de hielo)</span>
+                <span class="item-tag it-seru">Absorbe: Caoru (curación)</span>
+              </div>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Items</div>
+              <div class="tag-row">
+                <span class="item-tag it-item">Healing Leaf ×5</span>
+                <span class="item-tag it-item">Snowfield Herb (curación estado)</span>
+                <span class="item-tag it-item">Ice Coin</span>
+                <span class="item-tag it-item">Terra Armlet</span>
+              </div>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">⚔️ Jefe: Viguro</div>
+              <p>Jefe de hielo. Usa <strong style="color:var(--text)">fuego de Meta/Vahn</strong> para máximo daño. Viguro ataca en ráfagas de hielo que pueden congelar — ten Antídotos listos o usa Spirit antes de sus turnos de carga.</p>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Secreto</div>
+              <p>En Snowfield, al sur de la zona nevada hay una cueva secundaria casi invisible por la ventisca. Dentro: cofre con <strong style="color:var(--text)">Terra Armlet</strong>, uno de los mejores accesorios del Acto 1.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="area-card">
+          <div class="area-title" onclick="toggleArea(this)">
+            <h4>🏝️ Sebucus Islands</h4><span class="chevron">▾</span>
+          </div>
+          <div class="area-body">
+            <div class="area-section">
+              <div class="area-section-title">Qué hacer</div>
+              <p>Archipiélago accesible en barco desde Drake. Varias islas pequeñas con aldeas. Primero visita <strong style="color:var(--text)">Jeremi</strong> — aquí está el Muscle Dome, la arena de combate opcional más importante del juego. El Genesis Tree de Jeremi es uno de los primeros que debes despertar aquí.</p>
+              <p>Luego avanza hacia <strong style="color:var(--text)">Vidna</strong>, ciudad portuaria. Habla con el capitán del barco grande — tiene información sobre la ruta al continente norte.</p>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Enemies y Seru</div>
+              <div class="tag-row">
+                <span class="item-tag it-enemy">Sea Seru</span>
+                <span class="item-tag it-enemy">Kelp Seru</span>
+                <span class="item-tag it-enemy">Berserker (jefe)</span>
+                <span class="item-tag it-seru">Absorbe: Bejeweled (agua)</span>
+                <span class="item-tag it-seru">Absorbe: Lu Delilas (viento)</span>
+              </div>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Items</div>
+              <div class="tag-row">
+                <span class="item-tag it-item">Healing Berry ×4</span>
+                <span class="item-tag it-item">Scale Mail</span>
+                <span class="item-tag it-item">Sea Coin</span>
+                <span class="item-tag it-item">Water Crest</span>
+              </div>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">🌟 Muscle Dome (opcional imprescindible)</div>
+              <p>Arena de combate en Jeremi. Enfrentas oleadas de enemigos por recompensas únicas. Las primeras rondas son accesibles desde nivel 20. Las recompensas incluyen equipamiento que no se vende en ninguna tienda. <strong style="color:var(--text)">Muy recomendado antes de continuar al Acto 2.</strong></p>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Secreto</div>
+              <p>En Vidna, en el muelle sur hay un pescador. Habla con él 3 veces. En la tercera te entrega un <strong style="color:var(--text)">Water Jewel</strong> — un accesorio único que aumenta la defensa mágica significativamente.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase-label">Acto 2 — El mundo de Gala</div>
+
+        <div class="area-card">
+          <div class="area-title" onclick="toggleArea(this)">
+            <h4>⛩️ Templo de Biron</h4><span class="chevron">▾</span>
+          </div>
+          <div class="area-body">
+            <div class="area-section">
+              <div class="area-section-title">Qué hacer</div>
+              <p>Templo de monjes guerreros accesible por tierra desde las islas. Conoces a <strong style="color:var(--text)">Gala</strong>, monje con dudas sobre si unirse a tu misión. También conoces a <strong style="color:var(--text)">Songi</strong>, el rival de Gala de actitud oscura.</p>
+              <p>Completa las pruebas del templo hablando con el Gran Maestro. Tras la revelación sobre la Niebla y los Ra-Seru, ocurre el dramático encuentro con <strong style="color:var(--text)">Gaza</strong>.</p>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Enemigos</div>
+              <div class="tag-row">
+                <span class="item-tag it-enemy">Temple Guardian</span>
+                <span class="item-tag it-enemy">Stone Seru</span>
+                <span class="item-tag it-seru">Absorbe: Lippian (curación grupal)</span>
+                <span class="item-tag it-seru">Absorbe: Kemaro (tierra)</span>
+              </div>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Items</div>
+              <div class="tag-row">
+                <span class="item-tag it-item">Healing Leaf ×6</span>
+                <span class="item-tag it-item">Monk Robe (accesorio Gala)</span>
+                <span class="item-tag it-item">Revival Potion</span>
+                <span class="item-tag it-item">Stone Coin ×2</span>
+              </div>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">⚔️ Jefe: Gaza (Round 1)</div>
+              <p>Combate emotivo y difícil. Gaza es extremadamente poderoso para este punto. Usa <strong style="color:var(--text)">Noa como atacante principal</strong> (más rápida que los demás). Mantén a Vahn en Spirit para recuperar AP y reducir daño. Cura preventivamente — no esperes a estar en rojo. Nivel recomendado: 25-28.</p>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Gala se une</div>
+              <p>Tras el combate con Gaza, Ozma se fusiona con Gala y se une al equipo. Ahora tienes los 3 personajes. <strong style="color:var(--text)">Rediseña tu estrategia</strong>: Gala como tanque frontal, Noa como atacante veloz y Vahn como DPS equilibrado.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="area-card">
+          <div class="area-title" onclick="toggleArea(this)">
+            <h4>📡 Sol Tower</h4><span class="chevron">▾</span>
+          </div>
+          <div class="area-body">
+            <div class="area-section">
+              <div class="area-section-title">Qué hacer</div>
+              <p>Torre de comunicaciones de 10 pisos. El objetivo es restaurar el sistema de transmisión para contactar otras ciudades. Debes <strong style="color:var(--text)">activar los pisos en orden correcto</strong>: primero el subsuelo (generadores), luego pisos 1-5 (amplificadores), finalmente la cúspide.</p>
+              <p>Cada piso tiene una palanca o panel que activar. Si activas en orden incorrecto, los pisos se reinician. Busca las notas de los técnicos en cada piso — dan el orden correcto.</p>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Enemigos y Seru</div>
+              <div class="tag-row">
+                <span class="item-tag it-enemy">Electric Seru</span>
+                <span class="item-tag it-enemy">Wire Golem</span>
+                <span class="item-tag it-enemy">Tower Guardian</span>
+                <span class="item-tag it-seru">Absorbe: If (trueno)</span>
+                <span class="item-tag it-seru">Absorbe: Orb (parálisis)</span>
+              </div>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Items</div>
+              <div class="tag-row">
+                <span class="item-tag it-item">Magic Leaf ×4</span>
+                <span class="item-tag it-item">Elixir ×2</span>
+                <span class="item-tag it-item">Lightning Crest</span>
+                <span class="item-tag it-item">Tower Armor</span>
+                <span class="item-tag it-item">Power Potion</span>
+              </div>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Secreto</div>
+              <p>En el piso 7 hay una habitación de mantenimiento cerrada. La llave la tiene un NPC en el piso 3 que parece un técnico herido. Habla con él dos veces. La habitación contiene el <strong style="color:var(--text)">Lightning Ring</strong>, excelente para Noa.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="area-card">
+          <div class="area-title" onclick="toggleArea(this)">
+            <h4>⛏️ Raquell Mines</h4><span class="chevron">▾</span>
+          </div>
+          <div class="area-body">
+            <div class="area-section">
+              <div class="area-section-title">Qué hacer</div>
+              <p>Minas de minerales al sureste. Los trabajadores quedaron atrapados por los Seru. Rescata a los mineros siguiendo sus voces — cada sección tiene un minero que desbloquea el siguiente pasaje al ser rescatado.</p>
+              <p>El camino principal baja en espiral. Evita los geysers de lava en el piso inferior — dañan aunque no estés en combate. El jefe está al fondo del nivel más bajo.</p>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Enemigos y Seru — Zona ideal para farmear EXP</div>
+              <div class="tag-row">
+                <span class="item-tag it-enemy">Rock Seru</span>
+                <span class="item-tag it-enemy">Lava Golem</span>
+                <span class="item-tag it-enemy">Cave Bat Seru</span>
+                <span class="item-tag it-seru">Absorbe: Kemaro élite (tierra fuerte)</span>
+                <span class="item-tag it-seru">Absorbe: Fire Seru (fuego avanzado)</span>
+              </div>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Items</div>
+              <div class="tag-row">
+                <span class="item-tag it-item">Mine Stone ×5</span>
+                <span class="item-tag it-item">Healing Berry ×8</span>
+                <span class="item-tag it-item">Hard Armor</span>
+                <span class="item-tag it-item">Earth Coin</span>
+                <span class="item-tag it-item">Elixir ×3</span>
+              </div>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Secreto</div>
+              <p>En el nivel 3 de las minas hay un pasaje lateral tapado por rocas. Usa el item <strong style="color:var(--text)">Bomb</strong> (comprado en tienda de Jeremi) para abrirlo. Adentro: cofre con Hard Shield y 500 monedas.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="area-card">
+          <div class="area-title" onclick="toggleArea(this)">
+            <h4>🏯 Absolute Fortress (Jette)</h4><span class="chevron">▾</span>
+          </div>
+          <div class="area-body">
+            <div class="area-section">
+              <div class="area-section-title">Qué hacer</div>
+              <p>Fortaleza de Jette con un sistema de teletransportación que conecta las habitaciones. El puzzle: las plataformas de teletransporte llevan a salas distintas según el color que activas. <strong style="color:var(--text)">Orden correcto:</strong> Azul → Rojo → Verde → Central.</p>
+              <p>Si llegas a una sala que ya visitaste, busca la plataforma secundaria (más pequeña) — te lleva a un área nueva. No hay penalización por equivocarse, solo pérdida de tiempo.</p>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Enemigos y Seru</div>
+              <div class="tag-row">
+                <span class="item-tag it-enemy">Fortress Guard</span>
+                <span class="item-tag it-enemy">Mist Seru</span>
+                <span class="item-tag it-seru">Absorbe: Orb élite (parálisis fuerte)</span>
+                <span class="item-tag it-seru">Absorbe: Zeto (viento masivo)</span>
+              </div>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Items</div>
+              <div class="tag-row">
+                <span class="item-tag it-item">Fortress Key</span>
+                <span class="item-tag it-item">Elixir ×4</span>
+                <span class="item-tag it-item">Steel Armor</span>
+                <span class="item-tag it-item">Wind Crest</span>
+                <span class="item-tag it-item">MP Potion ×3</span>
+              </div>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">⚔️ Jefe: Jette</div>
+              <p>Alta defensa física — las Arts físicas hacen poco. <strong style="color:var(--text)">Prioriza magia de viento</strong> con Noa/Terra. Zeto (si ya lo absorbiste) es devastador aquí. Gala en Spirit/defensa para aguantar sus ataques de área. Nivel recomendado: 33-36.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="phase-label">Acto 3 — La verdad de la Niebla</div>
+
+        <div class="area-card">
+          <div class="area-title" onclick="toggleArea(this)">
+            <h4>🌆 Octam — Ciudad subterránea</h4><span class="chevron">▾</span>
+          </div>
+          <div class="area-body">
+            <div class="area-section">
+              <div class="area-section-title">Qué hacer</div>
+              <p>Ciudad construida bajo tierra para escapar la Niebla. La entrada está oculta — busca el pozo en el mapa central y desciende. La ciudad tiene varios distritos: mercado, residencias y el consejo.</p>
+              <p>Habla con el Anciano del Consejo para obtener información sobre Conkram. Visita a la <strong style="color:var(--text)">adivina</strong> en el distrito norte — activa un sidequest crucial que da el mejor accesorio del juego.</p>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Seru y enemies</div>
+              <div class="tag-row">
+                <span class="item-tag it-enemy">Shadow Seru</span>
+                <span class="item-tag it-enemy">Dark Guard</span>
+                <span class="item-tag it-seru">Absorbe: Navi (curación VIP)</span>
+                <span class="item-tag it-seru">Absorbe: Bido (Thunder Slash ⭐)</span>
+              </div>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Items y compras</div>
+              <div class="tag-row">
+                <span class="item-tag it-item">Encounter None ⭐ (tienda)</span>
+                <span class="item-tag it-item">Elixir ×6</span>
+                <span class="item-tag it-item">Dark Armor</span>
+                <span class="item-tag it-item">Healing Berry ×10</span>
+              </div>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">🌟 Item clave: Encounter None</div>
+              <p>Se vende en la tienda de Octam. <strong style="color:var(--text)">Elimina todos los encuentros aleatorios</strong> al equiparlo. Invaluable para exploración sin combates no deseados. Cómpralo en cuanto llegues.</p>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Secreto — Bido</div>
+              <p>El Seru <strong style="color:var(--text)">Bido</strong> aparece en las zonas externas de Octam con baja tasa. Su magia "Thunder Slash" es una de las más fuertes del juego. Vale la pena farmear hasta absorberlo.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="area-card">
+          <div class="area-title" onclick="toggleArea(this)">
+            <h4>🌀 Conkram — La ciudad del pasado</h4><span class="chevron">▾</span>
+          </div>
+          <div class="area-body">
+            <div class="area-section">
+              <div class="area-section-title">Qué hacer</div>
+              <p>Conkram existe en dos tiempos: el presente en ruinas, y el pasado vibrante accesible por un portal. En el <strong style="color:var(--text)">pasado</strong>, Conkram era la ciudad científica más avanzada del mundo — aquí ves el origen de Cort y la Niebla.</p>
+              <p>Habla con el joven Cort y sus padres. Asiste a la conferencia científica. Estos flashbacks revelan que la Niebla fue un experimento que se salió de control. Muy impactante narrativamente.</p>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Items en ruinas (presente)</div>
+              <div class="tag-row">
+                <span class="item-tag it-item">Ancient Coin</span>
+                <span class="item-tag it-item">Void Armor (cofre secreto)</span>
+                <span class="item-tag it-item">Revival Potion ×3</span>
+                <span class="item-tag it-item">Mega Elixir</span>
+              </div>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Secreto</div>
+              <p>En el presente, en el sótano del laboratorio principal, hay una <strong style="color:var(--text)">caja fuerte</strong> con un código de 4 dígitos. El código lo consigues hablando con el fantasma del científico en el ala este. El cofre contiene el Void Armor, la mejor armadura del juego.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="area-card">
+          <div class="area-title" onclick="toggleArea(this)">
+            <h4>🌫️ Mist Generator — Zona final</h4><span class="chevron">▾</span>
+          </div>
+          <div class="area-body">
+            <div class="area-section">
+              <div class="area-section-title">Qué hacer</div>
+              <p>La fuente de la Niebla. Estructura de varios pisos con enemigos de élite. <strong style="color:var(--text)">Antes de entrar</strong>: asegúrate de tener al menos 20 Healing Berries, 10 Elixirs y 5 Revival Potions por personaje.</p>
+              <p>Los pisos 1-4 son lineales con encuentros fuertes. El piso 5 tiene el último checkpoint — guarda aquí. Pisos 6-8 llevan a los jefes finales en secuencia: Dohati, luego Songi (2da vez), finalmente Cort.</p>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Enemigos (los más fuertes del juego)</div>
+              <div class="tag-row">
+                <span class="item-tag it-enemy">Mist Beast</span>
+                <span class="item-tag it-enemy">Dark Elemental</span>
+                <span class="item-tag it-enemy">Void Seru</span>
+                <span class="item-tag it-seru">Absorbe: Gimard élite</span>
+                <span class="item-tag it-seru">Absorbe: Dark Seru (oscuridad)</span>
+              </div>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">Items finales</div>
+              <div class="tag-row">
+                <span class="item-tag it-item">Mega Elixir ×4</span>
+                <span class="item-tag it-item">Full Revival</span>
+                <span class="item-tag it-item">Mist Armor (drop raro)</span>
+                <span class="item-tag it-item">Power Max Potion</span>
+              </div>
+            </div>
+            <div class="area-section">
+              <div class="area-section-title">⚔️ Secuencia de jefes finales</div>
+              <p><strong style="color:var(--text)">Dohati:</strong> Usa Super Arts. Mantén equipo sobre 300HP. <br><strong style="color:var(--text)">Songi (2da):</strong> Ozma Dark Wave es excelente. Noa en modo mágico. <br><strong style="color:var(--text)">Cort Fase 1:</strong> Arts físicas, Biron Moonlight si puedes activarlo. <br><strong style="color:var(--text)">Cort Fase 2:</strong> Spirit frecuente, cura preventiva, Ra-Seru magic. Nivel ideal: 55+.</p>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- end walkthrough -->
+
+      <!-- JEFES -->
+      <div id="gs-jefes" class="guide-section" style="display:none">
+        <div class="card">
+          <div class="card-header"><h3>💀 Guía de jefes</h3></div>
+          <div class="boss-item"><div class="boss-top"><span class="boss-name">Caruban</span><span class="badge b-teal">Acto 1</span></div><div class="boss-tip">Fuego de Meta. Elimina minions primero. Spirit cuando acumule carga. Nivel 10-12.</div></div>
+          <div class="boss-item"><div class="boss-top"><span class="boss-name">Viguro</span><span class="badge b-teal">Acto 1</span></div><div class="boss-tip">Jefe de hielo. Fuego de Meta. Spirit antes de sus ataques de área. Ten Antídotos para el congelamiento.</div></div>
+          <div class="boss-item"><div class="boss-top"><span class="boss-name">Berserker</span><span class="badge b-teal">Sebucus</span></div><div class="boss-tip">Ataca rápido con golpes físicos fuertes. Cura preventiva. Noa como atacante veloz. Nivel 20-22.</div></div>
+          <div class="boss-item"><div class="boss-top"><span class="boss-name">Gaza (Round 1)</span><span class="badge b-amber">Acto 2</span></div><div class="boss-tip">Más emotivo que difícil. Noa como atacante principal. Vahn en Spirit para reducir daño. Cura antes de llegar a rojo. Nivel 25-28.</div></div>
+          <div class="boss-item"><div class="boss-top"><span class="boss-name">Jette</span><span class="badge b-amber">Acto 2</span></div><div class="boss-tip">Alta defensa física. Prioriza magia de viento (Terra/Noa). Zeto si lo tienes. Nivel 33-36.</div></div>
+          <div class="boss-item"><div class="boss-top"><span class="boss-name">Songi (1ra vez)</span><span class="badge b-amber">Acto 2</span></div><div class="boss-tip">Arts físicas potentes. Alterna ataques entre personajes para evitar que se focalice. Gala como tanque. Nivel 36-40.</div></div>
+          <div class="boss-item"><div class="boss-top"><span class="boss-name">Gaza (Round 2)</span><span class="badge b-coral">Acto 3</span></div><div class="boss-tip">Mucho más fuerte. Ozma Dark Wave es tu mejor opción. Ten Full Revivals. Nivel 42-45.</div></div>
+          <div class="boss-item"><div class="boss-top"><span class="boss-name">Dohati</span><span class="badge b-coral">Acto 3</span></div><div class="boss-tip">Ataque de área devastador. Equipo sobre 300HP siempre. Super Arts cuando el combo lo permita. Nivel 47-50.</div></div>
+          <div class="boss-item"><div class="boss-top"><span class="boss-name">Songi (2da vez)</span><span class="badge b-coral">Acto 3</span></div><div class="boss-tip">Power máximo. Dark Wave de Ozma. Noa en modo mágico con Terra. Cura preventiva en cada turno. Nivel 50-53.</div></div>
+          <div class="boss-item"><div class="boss-top"><span class="boss-name">Cort — Fase 1</span><span class="badge b-coral">Final</span></div><div class="boss-tip">Físico. Arts de los 3 personajes. Intenta activar Biron Moonlight (Super Art triple). Nivel 55+.</div></div>
+          <div class="boss-item"><div class="boss-top"><span class="boss-name">Cort — Fase 2</span><span class="badge b-coral">Final</span></div><div class="boss-tip">Mágico. Spirit frecuente, cura antes de sus turnos de carga. Ra-Seru magic de los 3 en rotación. Dark Wave de Ozma hace daño masivo. Mantén todos sobre 400HP.</div></div>
+        </div>
+      </div>
+
+      <!-- TIPS -->
+      <div id="gs-tips" class="guide-section" style="display:none">
+        <div style="height:8px"></div>
+        <div class="tip-box"><strong>Absorbe todo desde el principio:</strong> Cada tipo de Seru da una magia diferente y sube el nivel Ra-Seru. Es el sistema de progresión más importante del juego.</div>
+        <div class="tip-box"><strong>Spirit es la mecánica más OP:</strong> Recupera AP + reduce daño a la mitad ese turno. Úsalo antes de ataques fuertes del jefe. En jefes difíciles, alterna Spirit con ataque en cada turno.</div>
+        <div class="warn-box"><strong>No ignores el Muscle Dome:</strong> La arena de Jeremi en Sebucus Islands da EXP masiva y accesorios únicos. Ve cuando tengas nivel 20+. Las recompensas son difíciles de conseguir de otra forma.</div>
+        <div class="tip-box"><strong>Gala como tanque, Noa como DPS mágica:</strong> En Acto 3, Gala absorbe golpes (tiene más HP/DEF) mientras Noa usa Terra para magia de viento devastadora contra jefes con defensa física alta.</div>
+        <div class="secret-box"><strong>Bido: el Seru más valioso:</strong> Su Thunder Slash es una de las magias más fuertes del juego. Aparece en las afueras de Octam con baja frecuencia. Farmea hasta absorberlo antes del Mist Generator.</div>
+        <div class="tip-box"><strong>Regresa a Rim Elm:</strong> En Acto 2-3, vuelve a la aldea inicial. Hay diálogos nuevos, cofres desbloqueados y un NPC que da una recompensa única si ya derrotaste a Gaza.</div>
+        <div class="warn-box"><strong>Prepara stocks antes del Mist Generator:</strong> 20+ Healing Berries, 10+ Elixirs y 5+ Full Revivals por personaje. Es la zona más larga sin tienda del juego.</div>
+        <div class="card" style="margin-top:4px">
+          <div class="card-header"><h3>📊 Niveles recomendados</h3></div>
+          <div class="level-row"><div class="level-zone">Rim Elm / Drake Castle</div><div class="level-range">8–15</div></div>
+          <div class="level-row"><div class="level-zone">Snowfield / Noa se une</div><div class="level-range">15–22</div></div>
+          <div class="level-row"><div class="level-zone">Sebucus Islands / Muscle Dome</div><div class="level-range">22–30</div></div>
+          <div class="level-row"><div class="level-zone">Templo Biron / Gaza</div><div class="level-range">28–34</div></div>
+          <div class="level-row"><div class="level-zone">Sol Tower / Raquell / Jette</div><div class="level-range">33–40</div></div>
+          <div class="level-row"><div class="level-zone">Octam / Conkram</div><div class="level-range">40–48</div></div>
+          <div class="level-row"><div class="level-zone">Mist Generator / Jefes finales</div><div class="level-range">50–55+</div></div>
+        </div>
+      </div>
+    </div><!-- end screen-guia -->
+
+    <!-- ===== ARTES ===== -->
+    <div id="screen-artes" class="screen">
+      <div class="section-header"><h2>Arts</h2><p>Secuencias H/M/L para desbloquear ataques</p></div>
+      <div class="subnav">
+        <button class="subnav-btn active" onclick="showArts('vahn',this)">Vahn</button>
+        <button class="subnav-btn" onclick="showArts('noa',this)">Noa</button>
+        <button class="subnav-btn" onclick="showArts('gala',this)">Gala</button>
+        <button class="subnav-btn" onclick="showArts('super',this)">Super Arts</button>
+      </div>
+      <div id="arts-vahn" class="arts-char">
+        <div class="arts-grid">
+          <div class="art-card"><div class="art-name">Swan Blade</div><div class="art-seq">H→H→H</div><div class="art-desc">Ataque básico frontal</div></div>
+          <div class="art-card"><div class="art-name">Slash Kick</div><div class="art-seq">L→H→H</div><div class="art-desc">Combo bajo a alto</div></div>
+          <div class="art-card"><div class="art-name">Vahn's Creed</div><div class="art-seq">H→M→L</div><div class="art-desc">Art equilibrada</div></div>
+          <div class="art-card"><div class="art-name">Rushing Attack</div><div class="art-seq">H→H→L→H</div><div class="art-desc">Golpe a múltiples</div></div>
+          <div class="art-card"><div class="art-name">Hyper Arts</div><div class="art-seq">H→L→H→L→H</div><div class="art-desc">Art avanzada de 5 hits</div></div>
+          <div class="art-card"><div class="art-name">Full Creed</div><div class="art-seq">H→M→L→H→M→L</div><div class="art-desc">Art más larga de Vahn</div></div>
+          <div class="art-card"><div class="art-name">Burning Arrow</div><div class="art-seq">Ra-Seru Meta</div><div class="art-desc">Magia de fuego</div></div>
+          <div class="art-card"><div class="art-name">Gimard</div><div class="art-seq">Seru absorbido</div><div class="art-desc">Fuego elemental</div></div>
+        </div>
+        <div class="tip-box"><strong>Tip Vahn:</strong> Sus Arts H→H→H son las más fáciles de ejecutar. Aprende Swan Blade primero y luego expande a combos más largos. Para maximizar daño en jefes, Full Creed con todos los AP.</div>
+      </div>
+      <div id="arts-noa" class="arts-char" style="display:none">
+        <div class="arts-grid">
+          <div class="art-card"><div class="art-name">Temptation Kick</div><div class="art-seq">H→L</div><div class="art-desc">Combo veloz básico</div></div>
+          <div class="art-card"><div class="art-name">Speed Burst</div><div class="art-seq">L→L→H</div><div class="art-desc">Múltiples golpes rápidos</div></div>
+          <div class="art-card"><div class="art-name">Tiger Fang</div><div class="art-seq">H→H→L</div><div class="art-desc">Alto daño concentrado</div></div>
+          <div class="art-card"><div class="art-name">Dancing Blade</div><div class="art-seq">H→M→H→L</div><div class="art-desc">Art avanzada de 4 hits</div></div>
+          <div class="art-card"><div class="art-name">Spiker</div><div class="art-seq">L→H→L→H→L</div><div class="art-desc">Combo de 5 golpes</div></div>
+          <div class="art-card"><div class="art-name">Rushing Band</div><div class="art-seq">H→L→H→M→L</div><div class="art-desc">Art larga de área</div></div>
+          <div class="art-card"><div class="art-name">Surging Arrow</div><div class="art-seq">Ra-Seru Terra</div><div class="art-desc">Magia de viento</div></div>
+          <div class="art-card"><div class="art-name">Lu Delilas</div><div class="art-seq">Seru absorbido</div><div class="art-desc">Viento fuerte</div></div>
+        </div>
+        <div class="tip-box"><strong>Tip Noa:</strong> La más veloz — ataca primero casi siempre. Terra Surging Arrow contra jefes con alta DEF física. En Acto 3 úsala como maga dedicada con MP Potions abundantes.</div>
+      </div>
+      <div id="arts-gala" class="arts-char" style="display:none">
+        <div class="arts-grid">
+          <div class="art-card"><div class="art-name">Charging Screw</div><div class="art-seq">H→H→H</div><div class="art-desc">Golpe pesado frontal</div></div>
+          <div class="art-card"><div class="art-name">Gala's Hammer</div><div class="art-seq">H→M→H</div><div class="art-desc">Daño masivo concentrado</div></div>
+          <div class="art-card"><div class="art-name">Gale Break</div><div class="art-seq">L→H→L→H</div><div class="art-desc">Combo equilibrado</div></div>
+          <div class="art-card"><div class="art-name">Power Punch</div><div class="art-seq">H→H→L→H</div><div class="art-desc">Art avanzada potente</div></div>
+          <div class="art-card"><div class="art-name">Deadly Finger</div><div class="art-seq">H→M→L→H→M</div><div class="art-desc">Art de máximo daño</div></div>
+          <div class="art-card"><div class="art-name">Biron Strike</div><div class="art-seq">H→L→M→H→L→M</div><div class="art-desc">Art más larga de Gala</div></div>
+          <div class="art-card"><div class="art-name">Dark Wave</div><div class="art-seq">Ra-Seru Ozma</div><div class="art-desc">Oscuridad — el más poderoso</div></div>
+          <div class="art-card"><div class="art-name">Kemaro</div><div class="art-seq">Seru absorbido</div><div class="art-desc">Magia de tierra</div></div>
+        </div>
+        <div class="tip-box"><strong>Tip Gala:</strong> Dark Wave de Ozma es el hechizo más fuerte del juego. Sube primero su nivel Ra-Seru absorbiendo Seru constantemente. En Acto 3, Gala como tanque + mago de daño masivo.</div>
+      </div>
+      <div id="arts-super" class="arts-char" style="display:none">
+        <div class="card" style="margin:0 16px 12px">
+          <div class="card-header"><h3>⚡ Super Arts combinados</h3></div>
+          <div class="card-body" style="margin-bottom:4px">Se activan cuando el medidor de combo del grupo supera el umbral durante un turno. Cuantos más hits acumules ese turno, mayor la probabilidad de activar uno.</div>
+          <div class="boss-item"><div class="boss-top"><span class="boss-name">Noa's Kiss</span><span class="badge b-teal">Vahn + Noa</span></div><div class="boss-tip">El más fácil de activar. Daño físico masivo en un solo enemigo. Ideal para jefes de Acto 1-2.</div></div>
+          <div class="boss-item"><div class="boss-top"><span class="boss-name">Noa's Hope</span><span class="badge b-amber">Noa + Gala</span></div><div class="boss-tip">Equilibrio entre velocidad (Noa) y poder (Gala). Bueno contra grupos de enemigos fuertes.</div></div>
+          <div class="boss-item"><div class="boss-top"><span class="boss-name">Vahn's Creed Ex</span><span class="badge b-purple">Vahn + Gala</span></div><div class="boss-tip">Super Art de los dos personajes físicos. Enorme daño concentrado en un enemigo.</div></div>
+          <div class="boss-item"><div class="boss-top"><span class="boss-name">Biron Moonlight</span><span class="badge b-coral">Los 3 juntos ⭐</span></div><div class="boss-tip">El Super Art supremo. Requiere alto combo de los 3 personajes en el mismo turno. Daño devastador. Úsalo en Cort Fase 1 si puedes activarlo.</div></div>
+        </div>
+        <div class="tip-box"><strong>Para activar Super Arts:</strong> Acumula la mayor cantidad de hits posible antes del umbral. No uses Spirit el turno anterior — necesitas AP y momentum máximos. Los Arts más largos (Full Creed, Biron Strike) ayudan a acumular combo rápido.</div>
+      </div>
+    </div>
+
+    <!-- ===== ITEMS ===== -->
+    <div id="screen-items" class="screen">
+      <div class="section-header"><h2>Items y equipo</h2><p>Lista completa de objetos clave</p></div>
+      <div class="subnav">
+        <button class="subnav-btn active" onclick="showItems('consumibles',this)">Consumibles</button>
+        <button class="subnav-btn" onclick="showItems('armas',this)">Armas</button>
+        <button class="subnav-btn" onclick="showItems('armaduras',this)">Armaduras</button>
+        <button class="subnav-btn" onclick="showItems('accesorios',this)">Accesorios</button>
+      </div>
+
+      <div id="items-consumibles" class="items-tab">
+        <div class="card">
+          <div class="card-header"><h3>🧪 Consumibles</h3></div>
+          <div class="item-row"><div class="item-icon">🌿</div><div class="item-info"><div class="item-name">Healing Leaf</div><div class="item-detail">Recupera ~100 HP a un aliado. El ítem de curación más básico y abundante.</div><div class="item-where">Tiendas desde Rim Elm · Drop común</div></div></div>
+          <div class="item-row"><div class="item-icon">🫐</div><div class="item-info"><div class="item-name">Healing Berry</div><div class="item-detail">Recupera ~300 HP. Versión mejorada. Tu consumible principal desde el Acto 2.</div><div class="item-where">Tiendas desde Sebucus · Drop medio</div></div></div>
+          <div class="item-row"><div class="item-icon">⚗️</div><div class="item-info"><div class="item-name">Elixir</div><div class="item-detail">Recupera HP y MP a un aliado. Invaluable en jefes largos del Acto 3.</div><div class="item-where">Tiendas desde Biron · Cofres · Drop raro</div></div></div>
+          <div class="item-row"><div class="item-icon">💊</div><div class="item-info"><div class="item-name">Mega Elixir</div><div class="item-detail">Recupera HP y MP completamente. Solo para emergencias en jefes finales.</div><div class="item-where">Cofres Mist Generator · Drop rarísimo</div></div></div>
+          <div class="item-row"><div class="item-icon">🍃</div><div class="item-info"><div class="item-name">Magic Leaf</div><div class="item-detail">Restaura ~50 MP. Esencial para mantener la magia activa en combates largos.</div><div class="item-where">Tiendas desde Drake · Drop común</div></div></div>
+          <div class="item-row"><div class="item-icon">✨</div><div class="item-info"><div class="item-name">MP Potion</div><div class="item-detail">Restaura ~150 MP. Versión mejorada del Magic Leaf. Compra en cantidad.</div><div class="item-where">Tiendas desde Sol Tower</div></div></div>
+          <div class="item-row"><div class="item-icon">💉</div><div class="item-info"><div class="item-name">Antidote</div><div class="item-detail">Cura veneno y congelamiento. Ten siempre 5+ en zonas de hielo y veneno.</div><div class="item-where">Tiendas desde Rim Elm · Drop común</div></div></div>
+          <div class="item-row"><div class="item-icon">🔮</div><div class="item-info"><div class="item-name">Revival Potion</div><div class="item-detail">Revive a un personaje caído con 50% HP. Esencial en Mist Generator.</div><div class="item-where">Tiendas desde Biron · Cofres</div></div></div>
+          <div class="item-row"><div class="item-icon">⭐</div><div class="item-info"><div class="item-name">Full Revival</div><div class="item-detail">Revive con HP completo. Guarda 5+ para los jefes finales de Cort.</div><div class="item-where">Cofres Acto 3 · Drop rarísimo · Tienda Octam</div></div></div>
+          <div class="item-row"><div class="item-icon">💣</div><div class="item-info"><div class="item-name">Bomb</div><div class="item-detail">Destruye obstáculos de roca en mazmorras. Necesario para pasajes secretos en Raquell Mines.</div><div class="item-where">Tienda Jeremi · Drake</div></div></div>
+          <div class="item-row"><div class="item-icon">🌀</div><div class="item-info"><div class="item-name">Power Potion</div><div class="item-detail">Aumenta ATK de un personaje por el combate. Útil en jefes con alta DEF.</div><div class="item-where">Tiendas desde Sebucus · Cofres</div></div></div>
+        </div>
+      </div>
+
+      <div id="items-armas" class="items-tab" style="display:none">
+        <div class="card">
+          <div class="card-header"><h3>⚔️ Armas principales</h3></div>
+          <div class="item-row"><div class="item-icon">👊</div><div class="item-info"><div class="item-name">Vahn's Fists (base)</div><div class="item-detail">ATK 15. Las manos desnudas de Vahn. Están siempre equipadas, no se pueden quitar.</div><div class="item-where">Equipado desde el inicio</div></div></div>
+          <div class="item-row"><div class="item-icon">🥊</div><div class="item-info"><div class="item-name">Power Gloves</div><div class="item-detail">ATK 28. Primeros guantes de Vahn con bono de ataque real. Mejor opción Acto 1.</div><div class="item-where">Tienda Drake · Cofre Snowfield</div></div></div>
+          <div class="item-row"><div class="item-icon">🥊</div><div class="item-info"><div class="item-name">Steel Gloves</div><div class="item-detail">ATK 45. Upgrade significativo para Vahn a mitad del Acto 2.</div><div class="item-where">Tienda Biron · Cofre Sol Tower</div></div></div>
+          <div class="item-row"><div class="item-icon">🥊</div><div class="item-info"><div class="item-name">Hyper Knuckles</div><div class="item-detail">ATK 70. Las mejores manos de Vahn. Alto daño y bono de velocidad.</div><div class="item-where">Tienda Octam · Muscle Dome recompensa</div></div></div>
+          <div class="item-row"><div class="item-icon">🦵</div><div class="item-info"><div class="item-name">Noa's Wild Claws (base)</div><div class="item-detail">ATK 18. Garras naturales de Noa. No se pueden quitar.</div><div class="item-where">Equipado desde el inicio</div></div></div>
+          <div class="item-row"><div class="item-icon">🦵</div><div class="item-info"><div class="item-name">Sharp Claws</div><div class="item-detail">ATK 32. Primer upgrade de Noa. Mejor velocidad de ataque.</div><div class="item-where">Tienda Sebucus · Drop Berserker</div></div></div>
+          <div class="item-row"><div class="item-icon">🦵</div><div class="item-info"><div class="item-name">Wind Claws</div><div class="item-detail">ATK 55. Garras con bono elemental de viento. Perfecto para el rol mágico de Noa.</div><div class="item-where">Cofre Absolute Fortress</div></div></div>
+          <div class="item-row"><div class="item-icon">🦵</div><div class="item-info"><div class="item-name">Mist Claws</div><div class="item-detail">ATK 80. Las mejores garras. Drop raro en Mist Generator.</div><div class="item-where">Drop raro enemigos Mist Generator</div></div></div>
+          <div class="item-row"><div class="item-icon">✊</div><div class="item-info"><div class="item-name">Gala's Iron Fists (base)</div><div class="item-detail">ATK 22. Puños entrenados de Gala. No se pueden quitar.</div><div class="item-where">Equipado desde Biron</div></div></div>
+          <div class="item-row"><div class="item-icon">✊</div><div class="item-info"><div class="item-name">Monk Fists</div><div class="item-detail">ATK 40. Puños de monje con bono de defensa. Acto 2 principal de Gala.</div><div class="item-where">Tienda Sebucus · Cofre Biron</div></div></div>
+          <div class="item-row"><div class="item-icon">✊</div><div class="item-info"><div class="item-name">Biron Fists</div><div class="item-detail">ATK 65. Las mejores manos de Gala en el juego base. HP bonus incluido.</div><div class="item-where">Muscle Dome recompensa avanzada</div></div></div>
+        </div>
+      </div>
+
+      <div id="items-armaduras" class="items-tab" style="display:none">
+        <div class="card">
+          <div class="card-header"><h3>🛡️ Armaduras</h3></div>
+          <div class="item-row"><div class="item-icon">👕</div><div class="item-info"><div class="item-name">Leather Armor</div><div class="item-detail">DEF 12. Armadura inicial. La encuentras en Drake Castle.</div><div class="item-where">Cofre Drake Castle · Tienda Drake</div></div></div>
+          <div class="item-row"><div class="item-icon">🧥</div><div class="item-info"><div class="item-name">Scale Mail</div><div class="item-detail">DEF 25. Buena protección para el Acto 1. Equipar en Vahn o Gala.</div><div class="item-where">Tienda Sebucus · Cofres Snowfield</div></div></div>
+          <div class="item-row"><div class="item-icon">🦺</div><div class="item-info"><div class="item-name">Hard Armor</div><div class="item-detail">DEF 40. Armadura sólida de mitad de juego. Ideal para Gala como tanque.</div><div class="item-where">Tienda Biron · Cofre Raquell Mines</div></div></div>
+          <div class="item-row"><div class="item-icon">⚙️</div><div class="item-info"><div class="item-name">Steel Armor</div><div class="item-detail">DEF 55. Armadura de acero. Bono de resistencia a estados alterados.</div><div class="item-where">Cofre Absolute Fortress · Tienda Octam</div></div></div>
+          <div class="item-row"><div class="item-icon">🌑</div><div class="item-info"><div class="item-name">Dark Armor</div><div class="item-detail">DEF 68. Resistencia mágica alta. Perfecta para el Acto 3 donde los ataques son mágicos.</div><div class="item-where">Tienda Octam · Cofre Conkram</div></div></div>
+          <div class="item-row"><div class="item-icon">⭐</div><div class="item-info"><div class="item-name">Void Armor ⭐</div><div class="item-detail">DEF 85. La mejor armadura del juego. Alta DEF + resistencia mágica + bono HP. Solo 1 disponible.</div><div class="item-where">Cofre secreto Conkram (caja fuerte)</div></div></div>
+          <div class="item-row"><div class="item-icon">🌫️</div><div class="item-info"><div class="item-name">Mist Armor</div><div class="item-detail">DEF 75. Drop raro en Mist Generator. Resistencia especial a ataques de Niebla.</div><div class="item-where">Drop raro Mist Generator</div></div></div>
+          <div class="item-row"><div class="item-icon">🧘</div><div class="item-info"><div class="item-name">Monk Robe (Gala)</div><div class="item-detail">DEF 35. Exclusiva de Gala. Bono de MP y velocidad de recarga de magia.</div><div class="item-where">Cofre Templo Biron</div></div></div>
+        </div>
+      </div>
+
+      <div id="items-accesorios" class="items-tab" style="display:none">
+        <div class="card">
+          <div class="card-header"><h3>💍 Accesorios</h3></div>
+          <div class="item-row"><div class="item-icon">💍</div><div class="item-info"><div class="item-name">Power Ring</div><div class="item-detail">ATK +10%. Primer accesorio útil. Equipar en Vahn o Noa para maximizar daño.</div><div class="item-where">Cofre tejado Rim Elm · Tienda Drake</div></div></div>
+          <div class="item-row"><div class="item-icon">📿</div><div class="item-info"><div class="item-name">Terra Armlet</div><div class="item-detail">DEF +15, MGR +10. Excelente balance. Uno de los mejores accesorios del Acto 1-2.</div><div class="item-where">Cueva secreta Snowfield</div></div></div>
+          <div class="item-row"><div class="item-icon">💎</div><div class="item-info"><div class="item-name">Water Jewel</div><div class="item-detail">MGR +20. Resistencia mágica significativa. Comprar via sidequest del pescador en Vidna.</div><div class="item-where">Pescador de Vidna (habla 3 veces)</div></div></div>
+          <div class="item-row"><div class="item-icon">⚡</div><div class="item-info"><div class="item-name">Lightning Ring</div><div class="item-detail">SPD +15, ATK +8. Perfecto para Noa — ya es veloz, esto la hace imparable.</div><div class="item-where">Habitación oculta Sol Tower piso 7</div></div></div>
+          <div class="item-row"><div class="item-icon">🌀</div><div class="item-info"><div class="item-name">Wind Crest</div><div class="item-detail">Potencia la magia de viento +25%. Equipar en Noa para Terra Surging Arrow devastadora.</div><div class="item-where">Cofre Absolute Fortress</div></div></div>
+          <div class="item-row"><div class="item-icon">⭐</div><div class="item-info"><div class="item-name">Encounter None ⭐</div><div class="item-detail">Elimina TODOS los encuentros aleatorios. Invaluable para exploración y backtracking.</div><div class="item-where">Tienda Octam — ¡Compra en cuanto llegues!</div></div></div>
+          <div class="item-row"><div class="item-icon">🔥</div><div class="item-info"><div class="item-name">Fire Crest</div><div class="item-detail">Potencia magia de fuego +25%. Equipar en Vahn con Gimard para daño máximo.</div><div class="item-where">Cofre Drake Castle oculto</div></div></div>
+          <div class="item-row"><div class="item-icon">🌑</div><div class="item-info"><div class="item-name">Dark Crest</div><div class="item-detail">Potencia magia oscura +25%. Equipar en Gala para Dark Wave de Ozma devastadora en Acto 3.</div><div class="item-where">Cofre Conkram / Tienda Octam</div></div></div>
+          <div class="item-row"><div class="item-icon">🏆</div><div class="item-info"><div class="item-name">Ulti-Shield</div><div class="item-detail">DEF +30, todas resistencias +15. El mejor accesorio defensivo. Solo 1 en todo el juego.</div><div class="item-where">Cofre oculto palacio Ratayu (ala oeste)</div></div></div>
+          <div class="item-row"><div class="item-icon">🧿</div><div class="item-info"><div class="item-name">HP Earring</div><div class="item-detail">HP máx +200. Equipar en Gala para maximizar su rol de tanque en Mist Generator.</div><div class="item-where">Muscle Dome recompensa · Tienda Octam</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== TRACKER ===== -->
+    <div id="screen-tracker" class="screen">
+      <div class="section-header"><h2>Tracker</h2><p>Tu progreso en Legaia</p></div>
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-num" id="stat-jefes">0</div><div class="stat-label">Jefes</div></div>
+        <div class="stat-box"><div class="stat-num" id="stat-seru">0</div><div class="stat-label">Seru absorbidos</div></div>
+        <div class="stat-box"><div class="stat-num" id="stat-trees">0</div><div class="stat-label">Genesis Trees</div></div>
+      </div>
+      <div class="subnav">
+        <button class="subnav-btn active" onclick="showTracker('bosses',this)">Jefes</button>
+        <button class="subnav-btn" onclick="showTracker('trees',this)">Genesis Trees</button>
+        <button class="subnav-btn" onclick="showTracker('seru',this)">Seru</button>
+      </div>
+      <div id="tracker-bosses" class="tracker-tab">
+        <div class="card"><div class="card-header"><h3>💀 Jefes</h3></div><div id="boss-list"></div></div>
+      </div>
+      <div id="tracker-trees" class="tracker-tab" style="display:none">
+        <div class="card"><div class="card-header"><h3>🌳 Genesis Trees</h3></div><div id="tree-list"></div></div>
+      </div>
+      <div id="tracker-seru" class="tracker-tab" style="display:none">
+        <div class="card"><div class="card-header"><h3>✨ Seru</h3></div><div class="card-body" style="padding-bottom:4px">Toca para marcar como absorbido.</div></div>
+        <div class="seru-grid" id="seru-grid"></div>
+      </div>
+    </div>
+
+  </div><!-- #content -->
+
+  <div id="tabs">
+    <div class="tab active" id="tab-guia" onclick="showScreen('guia')">
+      <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      <span>Guía</span>
+    </div>
+    <div class="tab" id="tab-artes" onclick="showScreen('artes')">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+      <span>Arts</span>
+    </div>
+    <div class="tab" id="tab-items" onclick="showScreen('items')">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span>Items</span>
+    </div>
+    <div class="tab" id="tab-tracker" onclick="showScreen('tracker')">
+      <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <span>Tracker</span>
+    </div>
+  </div>
+</div>
+
+<script>
+const BOSSES=[
+  {id:'caruban',name:'Caruban',zone:'Drake Castle · Acto 1'},
+  {id:'viguro',name:'Viguro',zone:'Snowfield · Acto 1'},
+  {id:'berserker',name:'Berserker',zone:'Sebucus Islands · Acto 1'},
+  {id:'gaza1',name:'Gaza (Round 1)',zone:'Templo Biron · Acto 2'},
+  {id:'jette',name:'Jette',zone:'Absolute Fortress · Acto 2'},
+  {id:'songi1',name:'Songi (1ra vez)',zone:'Biron · Acto 2'},
+  {id:'gaza2',name:'Gaza (Round 2)',zone:'Mist Gen. · Acto 3'},
+  {id:'dohati',name:'Dohati',zone:'Mist Generator · Acto 3'},
+  {id:'songi2',name:'Songi (2da vez)',zone:'Mist Generator · Acto 3'},
+  {id:'cort1',name:'Cort — Fase 1',zone:'Jefe Final'},
+  {id:'cort2',name:'Cort — Fase 2',zone:'Jefe Final'},
+];
+const TREES=[
+  {id:'rimElm',name:'Genesis Tree de Rim Elm',zone:'Aldea inicial · Meta elige a Vahn'},
+  {id:'snowfield',name:'Genesis Tree de Snowfield',zone:'Zona nevada · Noa se une al equipo'},
+  {id:'jeremi',name:'Genesis Tree de Jeremi',zone:'Sebucus Islands · Muscle Dome zona'},
+  {id:'vidna',name:'Genesis Tree de Vidna',zone:'Ciudad portuaria · Sebucus'},
+  {id:'biron',name:'Genesis Tree de Biron',zone:'Templo Biron · Gala se une'},
+  {id:'octam',name:'Genesis Tree de Octam',zone:'Ciudad subterránea · Acto 3'},
+  {id:'conkram',name:'Genesis Tree de Conkram',zone:'Ciudad del pasado · Acto 3'},
+];
+const SERU=[
+  {id:'gimard',name:'Gimard',magic:'Fuego',zone:'Drake / iniciales'},
+  {id:'zenoir',name:'Zenoir',magic:'Hielo',zone:'Snowfield'},
+  {id:'caoru',name:'Caoru',magic:'Curación',zone:'Bosques iniciales'},
+  {id:'kemaro',name:'Kemaro',magic:'Tierra',zone:'Raquell Mines'},
+  {id:'bejeweled',name:'Bejeweled',magic:'Agua',zone:'Vidna / costa'},
+  {id:'lippian',name:'Lippian',magic:'Curación grupal',zone:'Templo Biron'},
+  {id:'lu_delilas',name:'Lu Delilas',magic:'Viento fuerte',zone:'Sebucus Islands'},
+  {id:'if_seru',name:'If',magic:'Trueno',zone:'Sol Tower'},
+  {id:'orb',name:'Orb',magic:'Parálisis',zone:'Absolute Fortress'},
+  {id:'zeto',name:'Zeto',magic:'Viento masivo',zone:'Fortress avanzado'},
+  {id:'bido',name:'Bido ⭐',magic:'Thunder Slash',zone:'Afueras Octam'},
+  {id:'navi',name:'Navi',magic:'Curación VIP',zone:'Octam subterráneo'},
+  {id:'gimard2',name:'Gimard élite',magic:'Mega Fuego',zone:'Dungeons Acto 3'},
+  {id:'dark_seru',name:'Dark Seru',magic:'Oscuridad',zone:'Mist Generator'},
+];
+
+function loadState(){try{return JSON.parse(localStorage.getItem('legaia_v2')||'{}')}catch(e){return{}}}
+function saveState(s){localStorage.setItem('legaia_v2',JSON.stringify(s))}
+let state=loadState();
+if(!state.bosses)state.bosses={};
+if(!state.trees)state.trees={};
+if(!state.seru)state.seru={};
+
+function renderBossList(){
+  document.getElementById('boss-list').innerHTML=BOSSES.map(b=>`
+    <div class="tracker-item" onclick="toggleBoss('${b.id}')">
+      <div class="tracker-label"><div class="tracker-name">${b.name}</div><div class="tracker-sub">${b.zone}</div></div>
+      <div class="toggle ${state.bosses[b.id]?'on':''}" id="tb-${b.id}"><div class="toggle-knob"></div></div>
+    </div>`).join('');
+}
+function renderTreeList(){
+  document.getElementById('tree-list').innerHTML=TREES.map(t=>`
+    <div class="tracker-item" onclick="toggleTree('${t.id}')">
+      <div class="tracker-label"><div class="tracker-name">${t.name}</div><div class="tracker-sub">${t.zone}</div></div>
+      <div class="toggle ${state.trees[t.id]?'on':''}" id="tt-${t.id}"><div class="toggle-knob"></div></div>
+    </div>`).join('');
+}
+function renderSeruGrid(){
+  document.getElementById('seru-grid').innerHTML=SERU.map(s=>`
+    <div class="seru-card ${state.seru[s.id]?'absorbed':''}" onclick="toggleSeru('${s.id}')" id="sc-${s.id}">
+      <div class="seru-top"><span class="seru-name">${s.name}</span><span class="seru-check">✓</span></div>
+      <div class="seru-magic">${s.magic}</div>
+      <div class="seru-zone">${s.zone}</div>
+    </div>`).join('');
+}
+function toggleBoss(id){state.bosses[id]=!state.bosses[id];const t=document.getElementById('tb-'+id);if(t)t.classList.toggle('on',state.bosses[id]);saveState(state);updateStats()}
+function toggleTree(id){state.trees[id]=!state.trees[id];const t=document.getElementById('tt-'+id);if(t)t.classList.toggle('on',state.trees[id]);saveState(state);updateStats()}
+function toggleSeru(id){state.seru[id]=!state.seru[id];const c=document.getElementById('sc-'+id);if(c)c.classList.toggle('absorbed',state.seru[id]);saveState(state);updateStats()}
+function updateStats(){
+  document.getElementById('stat-jefes').textContent=Object.values(state.bosses).filter(Boolean).length;
+  document.getElementById('stat-seru').textContent=Object.values(state.seru).filter(Boolean).length;
+  document.getElementById('stat-trees').textContent=Object.values(state.trees).filter(Boolean).length;
+}
+
+function showScreen(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+name).classList.add('active');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+}
+function showGuide(name,btn){
+  document.querySelectorAll('.guide-section').forEach(s=>s.style.display='none');
+  document.getElementById('gs-'+name).style.display='block';
+  document.querySelectorAll('#screen-guia .subnav-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function showArts(name,btn){
+  document.querySelectorAll('.arts-char').forEach(s=>s.style.display='none');
+  document.getElementById('arts-'+name).style.display='block';
+  document.querySelectorAll('#screen-artes .subnav-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function showItems(name,btn){
+  document.querySelectorAll('.items-tab').forEach(s=>s.style.display='none');
+  document.getElementById('items-'+name).style.display='block';
+  document.querySelectorAll('#screen-items .subnav-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function showTracker(name,btn){
+  document.querySelectorAll('.tracker-tab').forEach(s=>s.style.display='none');
+  document.getElementById('tracker-'+name).style.display='block';
+  document.querySelectorAll('#screen-tracker .subnav-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function toggleArea(titleEl){
+  titleEl.classList.toggle('open');
+  const body=titleEl.nextElementSibling;
+  body.classList.toggle('open');
+}
+
+renderBossList();renderTreeList();renderSeruGrid();updateStats();
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js'));
+}
+</script>
+</body>
+</html>
